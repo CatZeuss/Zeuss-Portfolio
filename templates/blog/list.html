@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-20">
+    <div class="container mx-auto px-6">
+        <div class="flex justify-between items-center mb-12">
+            <h2 class="text-3xl font-bold text-white gradient-text">Blog</h2>
+            {% if current_user.is_authenticated and current_user.email == 'zeuss.developer@gmail.com' %}
+            <a href="{{ url_for('blog_create') }}"
+               class="glow-on-hover bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-lg">
+                Criar Post
+            </a>
+            {% endif %}
+        </div>
+
+        {% if categories %}
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <a href="{{ url_for('blog_list') }}"
+               class="glow-on-hover px-4 py-2 rounded-full bg-white/10 text-white hover:bg-primary/20 transition-all duration-300
+                      {{ 'bg-primary' if not request.args.get('category') else '' }}">
+                Todas as categorias 
+            </a>
+            {% for category in categories %}
+            <a href="{{ url_for('blog_list', category=category.id) }}"
+               class="glow-on-hover px-4 py-2 rounded-full bg-white/10 text-white hover:bg-primary/20 transition-all duration-300
+                      {{ 'bg-primary' if request.args.get('category') == category.id|string else '' }}">
+                {{ category.name }}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if blogs %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for blog in blogs %}
+            <article class="project-card rounded-lg overflow-hidden animate-on-scroll">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">{{ blog.title }}</h3>
+                    <p class="text-gray-300 mb-4">
+                        {{ blog.content[:200] + '...' if blog.content|length > 200 else blog.content }}
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400 text-sm">
+                            {{ blog.created_at.strftime('%B %d, %Y') }}
+                        </span>
+                        <a href="{{ url_for('blog_detail', blog_id=blog.id) }}"
+                           class="text-primary hover:text-secondary transition-colors duration-300">
+                            Ler mais
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-20">
+            <h3 class="text-2xl text-gray-300 mb-4">Não tem blogs</h3>
+            {% if current_user.is_authenticated and current_user.email == 'zeuss.developer@gmail.com' %}
+            <p class="text-gray-400 mb-8">Crie seu próprio blog!</p>
+            <a href="{{ url_for('blog_create') }}"
+               class="glow-on-hover bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg">
+                Crie seu primeiro blog
+            </a>
+            {% else %}
+            <p class="text-gray-400">Volte logo para mais conteúdo!</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

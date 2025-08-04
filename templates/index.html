@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="home" class="min-h-screen flex items-center pt-20 relative">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 text-center md:text-left animate-on-scroll">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    Olá, eu sou <span class="gradient-text">Sergio Ruiz</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                    Desenvolvedor Full-Stack | UI/UX Designer | Gerente de Projetos
+                </p>
+                <div class="flex justify-center md:justify-start space-x-4">
+                    <a href="#projects" 
+                       class="glow-on-hover bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-lg">
+                        Meu Trabalho
+                    </a>
+                    <a href="#contact" 
+                       class="glow-on-hover border-2 border-primary hover:bg-primary/20 px-8 py-3 rounded-lg">
+                        Contate-me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="py-20">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Acerca de mim</h2>
+        <div class="max-w-3xl mx-auto text-gray-300 animate-on-scroll">
+            <h3 class="mb-6 text-2xl font-bold text-center">
+                Sou um profissional versátil com experiência em desenvolvimento full-stack, design e gerenciamento de projetos.<br>
+                Com paixão por criar experiências digitais envolventes, dou vida a ideias por meio de código limpo e design intuitivo.
+            </h3>
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="py-20">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Trabalhos</h2>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-8 animate-on-scroll">
+            <button class="filter-btn px-4 py-2 rounded-lg bg-white/5 backdrop-blur-lg border border-white/10 hover:bg-white/10 transition-colors active"
+                    data-filter="all">
+                Todos
+            </button>
+            {% set technologies = [] %}
+            {% for project in projects %}
+                {% for tech in project.tech %}
+                    {% if tech not in technologies %}
+                        {% set _ = technologies.append(tech) %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            {% for tech in technologies|sort %}
+            <button class="filter-btn px-4 py-2 rounded-lg bg-white/5 backdrop-blur-lg border border-white/10 hover:bg-white/10 transition-colors"
+                    data-filter="{{ tech }}">
+                {{ tech }}
+            </button>
+            {% endfor %}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for project in projects %}
+            <div class="project-card rounded-lg overflow-hidden animate-on-scroll" 
+                 data-technologies="{{ project.tech|join(' ') }}">
+                {% if project.images %}
+                <div class="project-gallery relative h-64">
+                    <div class="gallery-container flex transition-transform duration-500" data-current="0">
+                        {% for image in project.images %}
+                        <img src="{{ image }}" 
+                             alt="{{ project.name }}" 
+                             class="w-full h-64 object-cover flex-shrink-0">
+                        {% endfor %}
+                    </div>
+                    {% if project.images|length > 1 %}
+                    <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                        {% for _ in project.images %}
+                        <div class="gallery-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">{{ project.name }}</h3>
+                    <p class="text-gray-300 mb-4">{{ project.description }}</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        {% for tech in project.tech %}
+                        <span class="bg-primary/20 text-primary px-2 py-1 rounded-full text-sm">
+                            {{ tech }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    <div class="flex space-x-4">
+                        {% for platform, link in project.links.items() %}
+                        <a href="https://{{ link }}" target="_blank" 
+                           class="text-primary hover:text-secondary transition-colors">
+                            <i class="fas fa-external-link-alt mr-2"></i>{{ platform }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="py-20">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Habilidades</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {% for category, skill_list in skills.items() %}
+            <div class="project-card rounded-lg p-6 animate-on-scroll">
+                <h3 class="text-xl font-bold mb-6 gradient-text">{{ category }}</h3>
+                <div class="space-y-6">
+                    {% for skill in skill_list %}
+                    <div class="skill-item" data-tooltip="{{ skill.description }}">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">{{ skill.name }}</span>
+                            <span class="text-primary">{{ skill.proficiency }}%</span>
+                        </div>
+                        <div class="skill-progress" data-progress="{{ skill.proficiency }}">
+                            <div class="skill-progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="pricing" class="py-20">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Preços</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for service in services %}
+            <div class="project-card rounded-lg p-6 animate-on-scroll">
+                <h3 class="text-xl font-bold mb-4">{{ service.name }}</h3>
+                <div class="text-2xl font-bold text-primary mb-4">R$ {{ '{:,.0f}'.format(service.price) }}</div>
+                <ul class="text-gray-300 mb-6 space-y-2">
+                    {% for feature in service.features %}
+                    <li><i class="fas fa-check text-primary mr-2"></i>{{ feature }}</li>
+                    {% endfor %}
+                </ul>
+                <a href="#contact" 
+                   class="block text-center glow-on-hover bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-lg"
+                   onclick="presetContactForm('{{ service.name }}', 'Bom dia, eu gostaria de pedir um {{ service.name }}')">
+                    Solicitar Orçamento
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="py-10 text-center">
+    <div class="container mx-auto px-6">
+        <a href="{{ url_for('terms') }}" 
+           class="inline-block glow-on-hover bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-lg">
+            Termos & Condições
+        </a>
+    </div>
+</section>
+
+<section id="contact" class="py-20">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-8 gradient-text animate-on-scroll">Vamos conversar?</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="mb-6 p-4 rounded-lg text-center {{ 'bg-green-500/20 text-green-300' if category == 'success' else 'bg-red-500/20 text-red-300' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="max-w-2xl mx-auto bg-white/5 backdrop-blur-lg rounded-lg p-8 animate-on-scroll">
+            <form action="{{ url_for('send_message') }}" method="POST" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+                        <input type="text" id="name" name="name" required
+                               class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                </div>
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-300 mb-2">Assunto</label>
+                    <input type="text" id="subject" name="subject" required
+                           class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-300 mb-2">Mensagem</label>
+                    <textarea id="message" name="message" rows="4" required
+                            class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit"
+                            class="glow-on-hover bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-lg hover:scale-105 transition-transform">
+                        Enviar mensagem
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Social Media Links -->
+<section class="py-10 bg-gray-800/50">
+    <div class="container mx-auto px-6">
+        <div class="flex justify-center space-x-6">
+            <a href="https://github.com/CatZeuss" target="_blank" 
+               class="text-gray-300 hover:text-primary transition-colors">
+                <i class="fab fa-github text-2xl"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/sergio-r-molina/" target="_blank"
+               class="text-gray-300 hover:text-primary transition-colors">
+                <i class="fab fa-linkedin text-2xl"></i>
+            </a>
+            <a href="https://www.instagram.com/zeuss.jpg/" target="_blank"
+               class="text-gray-300 hover:text-primary transition-colors">
+                <i class="fab fa-instagram text-2xl"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Fullscreen Image Modal -->
+<div id="fullscreenModal" class="fixed inset-0 bg-black/90 z-50 hidden">
+    <button class="absolute top-4 right-4 text-white text-2xl hover:text-primary" id="closeModal">
+        <i class="fas fa-times"></i>
+    </button>
+    <button class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary" id="prevImage">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary" id="nextImage">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+    <div class="flex items-center justify-center h-full">
+        <img src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain">
+    </div>
+</div>
+
+{% endblock %}
