@@ -1,44 +1,122 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <h2 class="mt-6 text-center text-3xl font-bold text-white">
-                Verificar código
-            </h2>
-            <p class="mt-2 text-center text-sm text-gray-300">
-                Insira o código de verificação enviado a {{ email }}
+
+<section class="min-h-screen flex items-center justify-center px-4 py-24 relative">
+
+    <div class="blob blob-1" style="opacity:0.35"></div>
+
+    <div class="w-full max-w-md relative z-10 animate__animated animate__fadeInUp">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <a href="/" class="inline-block font-display font-extrabold text-3xl gradient-text mb-6">Zeuss</a>
+            <h1 class="font-display font-bold text-2xl text-white mb-2">Verificar Código</h1>
+            <p class="text-white/40 text-sm">
+                Código enviado para <span class="text-white/65 font-medium">{{ email }}</span>
             </p>
         </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="p-4 rounded-lg text-center {{ 'bg-green-500/20 text-green-300' if category == 'success' else 'bg-red-500/20 text-red-300' }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <!-- Card -->
+        <div class="glass-card p-8">
 
-        <form class="mt-8 space-y-6" action="{{ url_for('verify_code', email=email) }}" method="POST">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="code" class="sr-only">Código de Verificação</label>
-                    <input id="code" name="code" type="text" required
-                        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-600 bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="Código de 6 digitos">
+            <!-- Shield icon -->
+            <div class="flex justify-center mb-7">
+                <div class="auth-icon-ring">
+                    <i class="fas fa-shield-halved text-xl" style="color:var(--secondary)"></i>
                 </div>
             </div>
 
-            <div>
-                <button type="submit"
-                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                    Verificar código
+            <form action="{{ url_for('verify_code', email=email) }}" method="POST"
+                  class="space-y-6" id="verifyForm">
+
+                <!-- 6-digit OTP input -->
+                <div>
+                    <label class="form-label text-center block mb-3">Código de 6 dígitos</label>
+
+                    <!-- Visual split inputs (cosmetic only — hidden real input) -->
+                    <div class="otp-boxes" id="otpBoxes">
+                        {% for i in range(6) %}
+                        <div class="otp-box" data-index="{{ i }}"></div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Real hidden input that gets submitted -->
+                    <input type="text" id="codeHidden" name="code" required
+                           maxlength="6" pattern="\d{6}"
+                           class="form-input text-center tracking-[0.5em] font-display font-bold text-xl mt-4"
+                           placeholder="______"
+                           autocomplete="one-time-code"
+                           inputmode="numeric">
+                </div>
+
+                <!-- Timer -->
+                <div class="text-center text-xs text-white/35" id="timerWrap">
+                    Código expira em <span id="countdown" class="font-display font-bold text-white/60">03:00</span>
+                </div>
+
+                <button type="submit" class="btn-primary w-full justify-center py-3.5 glow-on-hover">
+                    <i class="fas fa-circle-check text-sm"></i>
+                    Verificar Código
                 </button>
+            </form>
+
+            <div class="mt-5 text-center">
+                <a href="{{ url_for('login') }}" class="text-xs text-white/30 hover:text-white/60 transition-colors">
+                    <i class="fas fa-rotate-left mr-1"></i>Reenviar código
+                </a>
             </div>
-        </form>
+        </div>
+
+        <p class="text-center mt-6 text-xs text-white/20">
+            <a href="/" class="hover:text-white/50 transition-colors">
+                <i class="fas fa-arrow-left mr-1"></i>Voltar ao portfólio
+            </a>
+        </p>
     </div>
 </section>
+
+<script>
+/* OTP visual boxes sync with real input */
+(function () {
+    const boxes   = document.querySelectorAll('.otp-box');
+    const real    = document.getElementById('codeHidden');
+
+    function syncBoxes(val) {
+        boxes.forEach((b, i) => {
+            b.textContent   = val[i] || '';
+            b.dataset.filled = val[i] ? '1' : '';
+        });
+    }
+
+    real.addEventListener('input', () => {
+        const digits = real.value.replace(/\D/g, '').slice(0, 6);
+        real.value   = digits;
+        syncBoxes(digits);
+    });
+
+    // Clicking a box focuses the real input
+    boxes.forEach(b => b.addEventListener('click', () => real.focus()));
+})();
+
+/* Countdown timer — 3 minutes */
+(function () {
+    let secs = 180;
+    const el = document.getElementById('countdown');
+    if (!el) return;
+    const iv = setInterval(() => {
+        secs--;
+        if (secs <= 0) {
+            clearInterval(iv);
+            el.textContent = '00:00';
+            el.style.color = 'var(--accent)';
+            return;
+        }
+        const m = String(Math.floor(secs / 60)).padStart(2, '0');
+        const s = String(secs % 60).padStart(2, '0');
+        el.textContent = `${m}:${s}`;
+        if (secs <= 30) el.style.color = 'var(--accent)';
+    }, 1000);
+})();
+</script>
+
 {% endblock %}

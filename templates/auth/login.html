@@ -1,41 +1,69 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <h2 class="mt-6 text-center text-3xl font-bold text-white">
-                Iniciar Sessão
-            </h2>
-        </div>
-        
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="p-4 rounded-lg text-center {{ 'bg-green-500/20 text-green-300' if category == 'success' else 'bg-red-500/20 text-red-300' }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
 
-        <form class="mt-8 space-y-6" action="{{ url_for('login') }}" method="POST">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="email" class="sr-only">E-mail</label>
-                    <input id="email" name="email" type="email" required
-                        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-600 bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="Endereço de E-mail">
+<section class="min-h-screen flex items-center justify-center px-4 py-24 relative">
+
+    <!-- Decorative blob -->
+    <div class="blob blob-2" style="opacity:0.4"></div>
+
+    <div class="w-full max-w-md relative z-10 animate__animated animate__fadeInUp">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <a href="/" class="inline-block font-display font-extrabold text-3xl gradient-text mb-6">Zeuss</a>
+            <h1 class="font-display font-bold text-2xl text-white mb-2">Iniciar Sessão</h1>
+            <p class="text-white/40 text-sm">
+                Acesso restrito — somente para o administrador.
+            </p>
+        </div>
+
+        <!-- Card -->
+        <div class="glass-card p-8">
+
+            <!-- Lock icon -->
+            <div class="flex justify-center mb-7">
+                <div class="auth-icon-ring">
+                    <i class="fas fa-key text-xl" style="color:var(--secondary)"></i>
                 </div>
             </div>
 
-            <div>
-                <button type="submit"
-                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            <form action="{{ url_for('login') }}" method="POST" class="space-y-5" id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Endereço de E-mail</label>
+                    <div class="input-icon-wrap">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input id="email" name="email" type="email" required
+                               class="form-input pl-10"
+                               placeholder="seu@email.com"
+                               autocomplete="email">
+                    </div>
+                </div>
+
+                <!-- Turnstile CAPTCHA -->
+                <div class="flex justify-center py-1">
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAbmEEY_fT7q5yqj" data-theme="dark"></div>
+                </div>
+
+                <button type="submit" class="btn-primary w-full justify-center py-3.5 glow-on-hover">
+                    <i class="fas fa-paper-plane text-sm"></i>
                     Enviar código de verificação
                 </button>
-            </div>
-        </form>
+            </form>
+
+            <p class="text-center text-xs text-white/25 mt-6">
+                Um código OTP de 6 dígitos será enviado ao seu e-mail.
+            </p>
+        </div>
+
+        <p class="text-center mt-6 text-xs text-white/20">
+            <a href="/" class="hover:text-white/50 transition-colors">
+                <i class="fas fa-arrow-left mr-1"></i>Voltar ao portfólio
+            </a>
+        </p>
     </div>
 </section>
+
+<!-- Turnstile script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 {% endblock %}

@@ -640,3 +640,322 @@ a:focus-visible, button:focus-visible {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     background-repeat: repeat;
 }
+
+
+/* ════════════════════════════════════════════════
+   PAGE-SPECIFIC STYLES
+   ════════════════════════════════════════════════ */
+
+/* ── Decorative Blobs ──────────────────────────── */
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+}
+.blob-1 {
+    width: 600px; height: 600px;
+    background: rgba(124,106,247,0.12);
+    top: -150px; left: -200px;
+}
+.blob-2 {
+    width: 500px; height: 500px;
+    background: rgba(244,114,182,0.09);
+    bottom: -100px; right: -150px;
+}
+.blob-3 {
+    width: 400px; height: 400px;
+    background: rgba(167,139,250,0.1);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+/* ── Section Labels & Titles ───────────────────── */
+.section-label {
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 0.6rem;
+}
+
+.section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    text-align: center;
+    color: #fff;
+    line-height: 1.15;
+}
+
+/* Decorative side lines */
+.section-line-left {
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 3px; height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+    border-radius: 99px;
+}
+.section-line-right {
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 3px; height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    border-radius: 99px;
+}
+
+/* ── Hero ──────────────────────────────────────── */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 99px;
+    background: rgba(124,106,247,0.12);
+    border: 1px solid rgba(124,106,247,0.25);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--secondary);
+    letter-spacing: 0.01em;
+}
+
+.badge-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 8px #4ade80;
+    animation: dotBlink 2s ease-in-out infinite;
+}
+
+@keyframes dotBlink {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+}
+
+.stat-chip {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+.stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+.stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.scroll-caret {
+    width: 10px; height: 10px;
+    border-right: 2px solid rgba(255,255,255,0.3);
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    transform: rotate(45deg);
+    animation: caretBounce 1.6s ease-in-out infinite;
+}
+@keyframes caretBounce {
+    0%,100% { transform: rotate(45deg) translate(0,0); opacity:0.4; }
+    50%      { transform: rotate(45deg) translate(3px,3px); opacity:1; }
+}
+
+/* ── About Cards ───────────────────────────────── */
+.about-card {
+    padding: 1.4rem;
+    border-radius: 14px;
+    background: rgba(26,26,46,0.6);
+    border: 1px solid var(--border);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.about-card:hover {
+    border-color: rgba(124,106,247,0.3);
+    transform: translateY(-3px);
+}
+
+.social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 99px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.5);
+    transition: all 0.25s ease;
+}
+.social-pill:hover {
+    background: rgba(124,106,247,0.12);
+    border-color: rgba(124,106,247,0.3);
+    color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+/* ── Project Tags & Links ──────────────────────── */
+.tech-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+    background: rgba(124,106,247,0.12);
+    color: var(--secondary);
+    border: 1px solid rgba(124,106,247,0.2);
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    transition: color 0.2s ease;
+}
+.project-link:hover { color: var(--secondary); }
+
+/* ── Pricing Card ──────────────────────────────── */
+.pricing-card {
+    border-radius: 16px;
+    background: rgba(26,26,46,0.6);
+    border: 1px solid var(--border);
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    overflow: hidden;
+}
+.pricing-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(124,106,247,0.3);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(124,106,247,0.1);
+}
+.pricing-card-inner {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.pricing-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    margin-bottom: 0.25rem;
+}
+.pricing-currency {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--secondary);
+}
+.pricing-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Forms ─────────────────────────────────────── */
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.form-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    outline: none;
+}
+
+.form-input::placeholder { color: rgba(255,255,255,0.2); }
+
+.form-input:focus {
+    border-color: rgba(124,106,247,0.5);
+    background: rgba(124,106,247,0.05);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.12);
+}
+
+.input-icon-wrap { position: relative; }
+
+.input-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.25);
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+.form-input.pl-10 { padding-left: 2.4rem; }
+
+/* ── Auth Icon Ring ─────────────────────────────── */
+.auth-icon-ring {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(124,106,247,0.15);
+    animation: ringPulse 3s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+    0%,100% { box-shadow: 0 0 20px rgba(124,106,247,0.15); }
+    50%      { box-shadow: 0 0 40px rgba(124,106,247,0.3); }
+}
+
+/* ── OTP Boxes ──────────────────────────────────── */
+.otp-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.otp-box {
+    width: 44px; height: 54px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    cursor: text;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.otp-box[data-filled="1"] {
+    border-color: rgba(124,106,247,0.5);
+    background: rgba(124,106,247,0.08);
+    color: var(--secondary);
+}

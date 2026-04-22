@@ -1,105 +1,187 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section id="home" class="min-h-screen flex items-center pt-20 relative">
+
+<!-- ░░░ HERO ░░░ -->
+<section id="home" class="relative min-h-screen flex items-center overflow-hidden">
+
+    <!-- Decorative blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="container mx-auto px-6 py-32 relative z-10">
+        <div class="max-w-3xl">
+
+            <div class="hero-badge animate-on-scroll" data-delay="0">
+                <span class="badge-dot"></span>
+                Disponível para novos projetos
+            </div>
+
+            <h1 class="font-display font-extrabold text-5xl md:text-7xl leading-[1.07] mt-6 mb-5 animate-on-scroll" data-delay="100">
+                Olá, eu sou<br>
+                <span class="gradient-text">Sergio Ruiz</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-white/55 max-w-xl leading-relaxed mb-10 animate-on-scroll" data-delay="200">
+                Desenvolvedor Full-Stack · UI/UX Designer · Gerente de Projetos.<br>
+                Transformo ideias em produtos digitais de alto impacto.
+            </p>
+
+            <div class="flex flex-wrap gap-4 animate-on-scroll" data-delay="300">
+                <a href="#projects" class="btn-primary glow-on-hover">
+                    <i class="fas fa-grid-2 text-sm"></i> Ver Trabalhos
+                </a>
+                <a href="#contact" class="btn-secondary">
+                    <i class="fas fa-paper-plane text-sm"></i> Contate-me
+                </a>
+            </div>
+
+            <!-- Quick stats -->
+            <div class="flex flex-wrap gap-8 mt-16 animate-on-scroll" data-delay="400">
+                <div class="stat-chip">
+                    <span class="stat-num">7+</span>
+                    <span class="stat-label">Projetos</span>
+                </div>
+                <div class="stat-chip">
+                    <span class="stat-num">5+</span>
+                    <span class="stat-label">Anos exp.</span>
+                </div>
+                <div class="stat-chip">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-label">Dedicação</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        <span class="text-xs tracking-widest uppercase font-display">Scroll</span>
+        <div class="scroll-caret"></div>
+    </div>
+</section>
+
+
+<!-- ░░░ ABOUT ░░░ -->
+<section id="about" class="py-28 relative">
+    <div class="section-line-left"></div>
     <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 text-center md:text-left animate-on-scroll">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                    Olá, eu sou <span class="gradient-text">Sergio Ruiz</span>
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-8">
-                    Desenvolvedor Full-Stack | UI/UX Designer | Gerente de Projetos
+        <div class="section-label animate-on-scroll">Sobre mim</div>
+        <h2 class="section-title animate-on-scroll" data-delay="80">Quem sou eu?</h2>
+
+        <div class="mt-14 grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            <div class="animate-on-scroll from-left">
+                <p class="text-white/65 text-lg leading-relaxed mb-6">
+                    Sou um profissional versátil com experiência em desenvolvimento full-stack,
+                    design e gerenciamento de projetos. Com paixão por criar experiências digitais
+                    envolventes, dou vida a ideias por meio de código limpo e design intuitivo.
                 </p>
-                <div class="flex justify-center md:justify-start space-x-4">
-                    <a href="#projects" 
-                       class="glow-on-hover bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-lg">
-                        Meu Trabalho
+                <p class="text-white/65 text-lg leading-relaxed">
+                    Atuo desde o planejamento de banco de dados até a entrega do produto final,
+                    sempre com foco em performance, acessibilidade e identidade visual única.
+                </p>
+                <div class="flex gap-4 mt-8">
+                    <a href="https://github.com/CatZeuss" target="_blank" class="social-pill">
+                        <i class="fab fa-github"></i> GitHub
                     </a>
-                    <a href="#contact" 
-                       class="glow-on-hover border-2 border-primary hover:bg-primary/20 px-8 py-3 rounded-lg">
-                        Contate-me
+                    <a href="https://www.linkedin.com/in/sergio-r-molina/" target="_blank" class="social-pill">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </a>
+                    <a href="https://www.instagram.com/zeuss.jpg/" target="_blank" class="social-pill">
+                        <i class="fab fa-instagram"></i> Instagram
                     </a>
                 </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 animate-on-scroll from-right" data-delay="100">
+                {% set highlights = [
+                    ('fas fa-code',         'Full-Stack',   'Web & Mobile'),
+                    ('fas fa-paintbrush',   'UI/UX Design', 'Interfaces únicas'),
+                    ('fas fa-database',     'Databases',    'SQL & NoSQL'),
+                    ('fas fa-diagram-project', 'Gestão',   'Agile & Scrum'),
+                ] %}
+                {% for icon, title, sub in highlights %}
+                <div class="about-card">
+                    <i class="{{ icon }} text-2xl mb-3" style="color:var(--secondary)"></i>
+                    <p class="font-display font-bold text-white text-sm">{{ title }}</p>
+                    <p class="text-white/40 text-xs mt-1">{{ sub }}</p>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </section>
 
-<section id="about" class="py-20">
-    <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Acerca de mim</h2>
-        <div class="max-w-3xl mx-auto text-gray-300 animate-on-scroll">
-            <h3 class="mb-6 text-2xl font-bold text-center">
-                Sou um profissional versátil com experiência em desenvolvimento full-stack, design e gerenciamento de projetos.<br>
-                Com paixão por criar experiências digitais envolventes, dou vida a ideias por meio de código limpo e design intuitivo.
-            </h3>
-        </div>
-    </div>
-</section>
 
-<section id="projects" class="py-20">
+<!-- ░░░ PROJECTS ░░░ -->
+<section id="projects" class="py-28 relative">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Trabalhos</h2>
+        <div class="section-label animate-on-scroll">Portfólio</div>
+        <h2 class="section-title animate-on-scroll" data-delay="80">Meus Trabalhos</h2>
 
-        <div class="flex flex-wrap justify-center gap-4 mb-8 animate-on-scroll">
-            <button class="filter-btn px-4 py-2 rounded-lg bg-white/5 backdrop-blur-lg border border-white/10 hover:bg-white/10 transition-colors active"
-                    data-filter="all">
-                Todos
-            </button>
+        <!-- Filter bar -->
+        <div class="flex flex-wrap gap-2 mt-10 mb-12 animate-on-scroll" data-delay="120">
+            <button class="filter-btn active" data-filter="all">Todos</button>
             {% set technologies = [] %}
             {% for project in projects %}
                 {% for tech in project.tech %}
-                    {% if tech not in technologies %}
-                        {% set _ = technologies.append(tech) %}
-                    {% endif %}
+                    {% if tech not in technologies %}{% set _ = technologies.append(tech) %}{% endif %}
                 {% endfor %}
             {% endfor %}
             {% for tech in technologies|sort %}
-            <button class="filter-btn px-4 py-2 rounded-lg bg-white/5 backdrop-blur-lg border border-white/10 hover:bg-white/10 transition-colors"
-                    data-filter="{{ tech }}">
-                {{ tech }}
-            </button>
+            <button class="filter-btn" data-filter="{{ tech }}">{{ tech }}</button>
             {% endfor %}
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Cards grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for project in projects %}
-            <div class="project-card rounded-lg overflow-hidden animate-on-scroll" 
-                 data-technologies="{{ project.tech|join(' ') }}">
+            <div class="project-card overflow-hidden animate-on-scroll" 
+                 data-technologies="{{ project.tech|join(' ') }}"
+                 data-delay="{{ loop.index0 * 60 }}">
+
+                <!-- Gallery -->
                 {% if project.images %}
-                <div class="project-gallery relative h-64">
-                    <div class="gallery-container flex transition-transform duration-500" data-current="0">
+                <div class="project-gallery relative h-52">
+                    <div class="gallery-container h-full">
                         {% for image in project.images %}
-                        <img src="{{ image }}" 
-                             alt="{{ project.name }}" 
-                             class="w-full h-64 object-cover flex-shrink-0">
+                        <img src="{{ image }}" alt="{{ project.name }}"
+                             class="w-full h-52 object-cover flex-shrink-0">
                         {% endfor %}
                     </div>
                     {% if project.images|length > 1 %}
-                    <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 items-center">
                         {% for _ in project.images %}
-                        <div class="gallery-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        <div class="gallery-dot"></div>
                         {% endfor %}
                     </div>
+                    <!-- Nav arrows -->
+                    <button class="gallery-nav absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white text-xs flex items-center justify-center gallery-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="gallery-nav absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white text-xs flex items-center justify-center gallery-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                     {% endif %}
+                    <!-- Gradient overlay -->
+                    <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#1a1a2e] to-transparent pointer-events-none"></div>
                 </div>
                 {% endif %}
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">{{ project.name }}</h3>
-                    <p class="text-gray-300 mb-4">{{ project.description }}</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
+
+                <div class="p-5">
+                    <h3 class="font-display font-bold text-lg text-white mb-1.5">{{ project.name }}</h3>
+                    <p class="text-white/50 text-sm leading-relaxed mb-4">{{ project.description }}</p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-4">
                         {% for tech in project.tech %}
-                        <span class="bg-primary/20 text-primary px-2 py-1 rounded-full text-sm">
-                            {{ tech }}
-                        </span>
+                        <span class="tech-tag">{{ tech }}</span>
                         {% endfor %}
                     </div>
-                    <div class="flex space-x-4">
+
+                    <div class="flex flex-wrap gap-3 pt-3 border-t border-white/5">
                         {% for platform, link in project.links.items() %}
-                        <a href="https://{{ link }}" target="_blank" 
-                           class="text-primary hover:text-secondary transition-colors">
-                            <i class="fas fa-external-link-alt mr-2"></i>{{ platform }}
+                        <a href="https://{{ link }}" target="_blank" class="project-link">
+                            <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+                            {{ platform|capitalize }}
                         </a>
                         {% endfor %}
                     </div>
@@ -110,22 +192,30 @@
     </div>
 </section>
 
-<section id="skills" class="py-20">
+
+<!-- ░░░ SKILLS ░░░ -->
+<section id="skills" class="py-28 relative">
+    <div class="section-line-right"></div>
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Habilidades</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="section-label animate-on-scroll">Competências</div>
+        <h2 class="section-title animate-on-scroll" data-delay="80">Habilidades</h2>
+
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {% for category, skill_list in skills.items() %}
-            <div class="project-card rounded-lg p-6 animate-on-scroll">
-                <h3 class="text-xl font-bold mb-6 gradient-text">{{ category }}</h3>
-                <div class="space-y-6">
+            <div class="glass-card p-7 animate-on-scroll" data-delay="{{ loop.index0 * 80 }}">
+                <h3 class="font-display font-bold text-base mb-6 flex items-center gap-2">
+                    <span class="w-1.5 h-5 rounded-full bg-gradient-to-b" style="background:linear-gradient(to bottom,var(--primary),var(--accent))"></span>
+                    {{ category }}
+                </h3>
+                <div class="space-y-5">
                     {% for skill in skill_list %}
                     <div class="skill-item" data-tooltip="{{ skill.description }}">
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-300">{{ skill.name }}</span>
-                            <span class="text-primary">{{ skill.proficiency }}%</span>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-white/75 text-sm font-medium">{{ skill.name }}</span>
+                            <span class="text-xs font-display font-bold" style="color:var(--secondary)">{{ skill.proficiency }}%</span>
                         </div>
                         <div class="skill-progress" data-progress="{{ skill.proficiency }}">
-                            <div class="skill-progress-bar" style="width: 0%"></div>
+                            <div class="skill-progress-bar"></div>
                         </div>
                     </div>
                     {% endfor %}
@@ -136,122 +226,122 @@
     </div>
 </section>
 
-<section id="pricing" class="py-20">
+
+<!-- ░░░ PRICING ░░░ -->
+<section id="pricing" class="py-28 relative">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 gradient-text animate-on-scroll">Preços</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="section-label animate-on-scroll">Serviços</div>
+        <h2 class="section-title animate-on-scroll" data-delay="80">Preços</h2>
+        <p class="text-white/45 text-center mt-3 mb-14 animate-on-scroll" data-delay="140">
+            Soluções sob medida para cada necessidade e orçamento.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for service in services %}
-            <div class="project-card rounded-lg p-6 animate-on-scroll">
-                <h3 class="text-xl font-bold mb-4">{{ service.name }}</h3>
-                <div class="text-2xl font-bold text-primary mb-4">R$ {{ '{:,.0f}'.format(service.price) }}</div>
-                <ul class="text-gray-300 mb-6 space-y-2">
-                    {% for feature in service.features %}
-                    <li><i class="fas fa-check text-primary mr-2"></i>{{ feature }}</li>
-                    {% endfor %}
-                </ul>
-                <a href="#contact" 
-                   class="block text-center glow-on-hover bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-lg"
-                   onclick="presetContactForm('{{ service.name }}', 'Bom dia, eu gostaria de pedir um {{ service.name }}')">
-                    Solicitar Orçamento
-                </a>
+            <div class="pricing-card animate-on-scroll" data-delay="{{ loop.index0 * 50 }}">
+                <div class="pricing-card-inner">
+                    <h3 class="font-display font-bold text-base text-white mb-3">{{ service.name }}</h3>
+                    <div class="pricing-price">
+                        <span class="pricing-currency">R$</span>
+                        <span class="pricing-amount">{{ '{:,.0f}'.format(service.price) }}</span>
+                    </div>
+                    <ul class="space-y-2 my-5 flex-1">
+                        {% for feature in service.features %}
+                        <li class="flex items-start gap-2.5 text-sm text-white/55">
+                            <i class="fas fa-check text-xs mt-0.5 flex-shrink-0" style="color:var(--secondary)"></i>
+                            {{ feature }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <a href="#contact"
+                       class="btn-primary w-full justify-center mt-auto glow-on-hover"
+                       onclick="presetContactForm('{{ service.name }}', 'Bom dia, eu gostaria de pedir um {{ service.name }}')">
+                        Solicitar Orçamento
+                    </a>
+                </div>
             </div>
             {% endfor %}
         </div>
+
+        <div class="text-center mt-12 animate-on-scroll">
+            <a href="{{ url_for('terms') }}" class="btn-secondary inline-flex">
+                <i class="fas fa-file-lines text-sm"></i> Termos & Condições
+            </a>
+        </div>
     </div>
 </section>
 
-<section class="py-10 text-center">
+
+<!-- ░░░ CONTACT ░░░ -->
+<section id="contact" class="py-28 relative">
+    <div class="blob blob-3"></div>
     <div class="container mx-auto px-6">
-        <a href="{{ url_for('terms') }}" 
-           class="inline-block glow-on-hover bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-lg">
-            Termos & Condições
-        </a>
-    </div>
-</section>
+        <div class="section-label animate-on-scroll">Contato</div>
+        <h2 class="section-title animate-on-scroll" data-delay="80">Vamos conversar?</h2>
+        <p class="text-white/45 text-center mt-3 mb-14 animate-on-scroll" data-delay="140">
+            Tem um projeto em mente? Manda uma mensagem — respondo em até 24h.
+        </p>
 
-<section id="contact" class="py-20">
-    <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-8 gradient-text animate-on-scroll">Vamos conversar?</h2>
+        <div class="max-w-2xl mx-auto animate-on-scroll" data-delay="160">
+            <div class="glass-card p-8 md:p-10">
+                <form action="{{ url_for('send_message') }}" method="POST" class="space-y-5" id="contactForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Nome</label>
+                            <input type="text" id="name" name="name" required
+                                   class="form-input" placeholder="Seu nome completo">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" id="email" name="email" required
+                                   class="form-input" placeholder="seu@email.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Assunto</label>
+                        <input type="text" id="subject" name="subject" required
+                               class="form-input" placeholder="Sobre o que você quer conversar?">
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Mensagem</label>
+                        <textarea id="message" name="message" rows="5" required
+                                  class="form-input resize-none"
+                                  placeholder="Descreva seu projeto ou dúvida…"></textarea>
+                    </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="mb-6 p-4 rounded-lg text-center {{ 'bg-green-500/20 text-green-300' if category == 'success' else 'bg-red-500/20 text-red-300' }}">
-                        {{ message }}
+                    <!-- Turnstile CAPTCHA -->
+                    <div class="flex justify-center">
+                        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAbmEEY_fT7q5yqj" data-theme="dark"></div>
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
 
-        <div class="max-w-2xl mx-auto bg-white/5 backdrop-blur-lg rounded-lg p-8 animate-on-scroll">
-            <form action="{{ url_for('send_message') }}" method="POST" class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Nome</label>
-                        <input type="text" id="name" name="name" required
-                               class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
-                        <input type="email" id="email" name="email" required
-                               class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                    </div>
-                </div>
-                <div>
-                    <label for="subject" class="block text-sm font-medium text-gray-300 mb-2">Assunto</label>
-                    <input type="text" id="subject" name="subject" required
-                           class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                </div>
-                <div>
-                    <label for="message" class="block text-sm font-medium text-gray-300 mb-2">Mensagem</label>
-                    <textarea id="message" name="message" rows="4" required
-                            class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit"
-                            class="glow-on-hover bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-lg hover:scale-105 transition-transform">
-                        Enviar mensagem
+                    <button type="submit" class="btn-primary w-full justify-center glow-on-hover py-3.5">
+                        <i class="fas fa-paper-plane text-sm"></i> Enviar mensagem
                     </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Social Media Links -->
-<section class="py-10 bg-gray-800/50">
-    <div class="container mx-auto px-6">
-        <div class="flex justify-center space-x-6">
-            <a href="https://github.com/CatZeuss" target="_blank" 
-               class="text-gray-300 hover:text-primary transition-colors">
-                <i class="fab fa-github text-2xl"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/sergio-r-molina/" target="_blank"
-               class="text-gray-300 hover:text-primary transition-colors">
-                <i class="fab fa-linkedin text-2xl"></i>
-            </a>
-            <a href="https://www.instagram.com/zeuss.jpg/" target="_blank"
-               class="text-gray-300 hover:text-primary transition-colors">
-                <i class="fab fa-instagram text-2xl"></i>
-            </a>
-        </div>
-    </div>
-</section>
 
-<!-- Fullscreen Image Modal -->
-<div id="fullscreenModal" class="fixed inset-0 bg-black/90 z-50 hidden">
-    <button class="absolute top-4 right-4 text-white text-2xl hover:text-primary" id="closeModal">
-        <i class="fas fa-times"></i>
+<!-- ░░░ FULLSCREEN MODAL ░░░ -->
+<div id="fullscreenModal" class="fixed inset-0 bg-black/92 backdrop-blur-md z-[70] hidden items-center justify-center">
+    <button id="closeModal"
+            class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all">
+        <i class="fas fa-xmark text-lg"></i>
     </button>
-    <button class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary" id="prevImage">
+    <button id="prevImage"
+            class="absolute left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all hover:scale-110">
         <i class="fas fa-chevron-left"></i>
     </button>
-    <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary" id="nextImage">
+    <button id="nextImage"
+            class="absolute right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all hover:scale-110">
         <i class="fas fa-chevron-right"></i>
     </button>
-    <div class="flex items-center justify-center h-full">
-        <img src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain">
-    </div>
+    <img src="" alt="" class="max-h-[88vh] max-w-[88vw] object-contain rounded-xl shadow-2xl">
 </div>
+
+<!-- Turnstile script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 {% endblock %}
