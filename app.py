@@ -20,6 +20,10 @@ SENDER_NAME = "KattZeuss System"
 
 # Session configuration
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
 
 # Initialize extensions
 login_manager = LoginManager()
@@ -417,7 +421,7 @@ def login():
             html_content=f"""
             <p>Seu código de verificação do portfólio é:</p>
             <h2 style="letter-spacing:4px">{code}</h2>
-            <p>Válido por 15 minutos.</p>
+            <p>Válido por 3 minutos.</p>
             """
         )
         flash('Código de verificação enviado.', 'success')

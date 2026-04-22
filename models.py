@@ -99,7 +99,7 @@ class VerificationCode:
     @staticmethod
     def create(email):
         code = str(randint(100000, 999999))
-        expires_at = datetime.utcnow() + timedelta(minutes=15)
+        expires_at = datetime.utcnow() + timedelta(minutes=3)
         # Remove códigos antigos do mesmo email
         verification_codes_col.delete_many({"email": email})
         verification_codes_col.insert_one({
