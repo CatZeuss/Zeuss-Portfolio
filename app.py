@@ -87,7 +87,7 @@ def index():
                 'web': 'www.art-koffee.com/home',
                 'android': 'play.google.com/store/apps/details?id=com.koffeedevs.artkoffee'
             },
-            'tech': ['HTML', 'CSS', 'MongoDB', 'Flask-SocketIO', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'JQuery'],
+            'tech': ['HTML', 'CSS', 'MongoDB', 'Websockets', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'JQuery'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/49ab5c7c-d4ca-4f3d-649f-47b439b19600/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/e5ac26c0-3258-4e11-53dc-d38590f46200/public',
@@ -133,7 +133,7 @@ def index():
         {
             'name': 'ManicScript',
             'description': 'Uma linguagem de programação espanhola criada como um projeto paródia.',
-            'links': {'web': 'manic-script.replit.app'},
+            'links': {'web': 'manicscript.up.railway.app', 'github': 'github.com/CatZeuss/ManicScript'},
             'tech': ['Python', 'HTML', 'CSS', 'JavaScript', 'Bootstrap'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/d050d92c-344d-4ed8-b46b-ba3a497f7100/public'
@@ -142,7 +142,7 @@ def index():
         {
             'name': 'PolarMind',
             'description': 'Web and Android app for mood tracking for bipolar disorder.',
-            'links': {'web': 'app.polarmind.org'},
+            'links': {'github': 'github.com/CatZeuss/PolarMind'},
             'tech': ['HTML', 'CSS', 'JavaScript', 'MongoDB', 'Flask', 'Python'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/1f55ee7e-6dc5-4d90-3a53-2f3a52bc2000/public'
