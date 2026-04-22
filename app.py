@@ -87,7 +87,7 @@ def index():
                 'web': 'www.art-koffee.com/home',
                 'android': 'play.google.com/store/apps/details?id=com.koffeedevs.artkoffee'
             },
-            'tech': ['HTML', 'CSS', 'MongoDB', 'Websockets', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'JQuery'],
+            'tech': ['HTML', 'CSS', 'MongoDB', 'Websockets', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'JQuery', 'Backend', 'Frontend', 'API', 'Redis', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/49ab5c7c-d4ca-4f3d-649f-47b439b19600/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/e5ac26c0-3258-4e11-53dc-d38590f46200/public',
@@ -98,7 +98,7 @@ def index():
         {
             'name': 'Pousadas Casa Do Ivo',
             'description': 'Site oficial de uma rede de pousadas no oeste do Pará.',
-            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP'],
+            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
             'links': {'web': 'casadoivo.com.br'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/ae13ab3e-dbde-4e2e-58ec-218862000e00/public',
@@ -110,7 +110,7 @@ def index():
         {
             'name': 'Hackatur',
             'description': 'Site oficial de um projeto que reúne diversas startups de Santarém.',
-            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP'],
+            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
             'links': {'web': 'hackatur.org'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/d73a0fd6-c599-44ad-043b-c2f9c0810500/public',
@@ -122,7 +122,7 @@ def index():
         {
             'name': 'RioHacks',
             'description': 'Site oficial da RioHacks Soluções em Tecnologia.',
-            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP'],
+            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
             'links': {'web': 'riohacks.com.br'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/1ae5ffc1-c76f-45d2-4593-ed4f1f171300/public',
@@ -132,16 +132,16 @@ def index():
         },
         {
             'name': 'ManicScript',
-            'description': 'Uma linguagem de programação espanhola criada como um projeto paródia.',
+            'description': 'Uma linguagem de programação e compilador gamificado em espanhol criada como um projeto paródia para a comunidade.',
             'links': {'web': 'manicscript.up.railway.app', 'github': 'github.com/CatZeuss/ManicScript'},
-            'tech': ['Python', 'HTML', 'CSS', 'JavaScript', 'Bootstrap'],
+            'tech': ['Python', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'Flask', 'Parser', 'UI/UX', 'Prototipagem', 'Design', 'Frontend', 'Backend', 'API', 'Lexer'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/d050d92c-344d-4ed8-b46b-ba3a497f7100/public'
             ]
         },
         {
             'name': 'PolarMind',
-            'description': 'Web and Android app for mood tracking for bipolar disorder.',
+            'description': 'Projeto de aplicativo e site de registros de humor e ajuda psicológica especialmente direcionado para indivíduos com transtorno afetivo bipolar.',
             'links': {'github': 'github.com/CatZeuss/PolarMind'},
             'tech': ['HTML', 'CSS', 'JavaScript', 'MongoDB', 'Flask', 'Python'],
             'images': [
@@ -152,13 +152,26 @@ def index():
             'name': 'AriaMail',
             'description': 'Servidor seguro de e-mail para envio, recebimento e gerenciamento de e-mails com dominio do art-koffee.com.',
             'links': {'web': 'ariamail.art-koffee.com'},
-            'tech': ['Python', 'Flask', 'MongoDB', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'Scrypt Hashing', 'SMTP', 'IMAP', 'POP3', 'DNS', 'SSL', 'TLS', 'Mailgun'],
+            'tech': ['Python', 'Flask', 'MongoDB', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'Scrypt Hashing', 'SMTP', 'IMAP', 'POP3', 'DNS', 'SSL', 'TLS', 'Mailgun', 'Backend', 'Frontend', 'API', 'Cibersegurança', 'Gestão de projetos', 'Pentesting', 'Design', 'UI/UX', 'Prototipagem'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/5790fff8-4c5f-4373-5d01-4cda1d9d1100/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/f7edfa65-1e36-488f-525a-236e10869300/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/5fd34258-6d73-4a5a-33f5-a132ed982c00/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/c932e4af-af30-42e1-f5c4-6217b36aca00/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/306ebad2-6c22-444d-18a7-1be46651b700/public'
+            ]
+        },
+        {
+            'name': 'ArtKoffee Support Center',
+            'description': 'Sistema completo e seguro de suporte para a comunidade ArtKoffee similar a Zendesk, incluindo ticketing, chat, blogs de ajuda e gestão de tickets.',
+            'links': {'web': 'support.art-koffee.com', 'github': 'github.com/ArtKoffee/ArtKoffee-Support'},
+            'tech': ['HTML', 'CSS', 'MongoDB', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'Backend', 'Single Sign-On', 'Frontend', 'API', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting', 'Design', 'UI/UX', 'Prototipagem'],
+            'images': [
+                'https://media.licdn.com/dms/image/v2/D4D2DAQF7TuigQHCoTQ/profile-treasury-image-shrink_480_480/B4DZ2upBCmJAAM-/0/1776751482047?e=1777456800&v=beta&t=WJk-P8P_1UbDhFZfMsdsvG-cXJt0oJscEhqtaLWgtAU',
+                'https://media.licdn.com/dms/image/v2/D4D2DAQGpyTBhV0oLIA/profile-treasury-image-shrink_480_480/B4DZ2upBCmJIAM-/0/1776751481989?e=1777456800&v=beta&t=FIMeBYBKoCqxnVC2GCVYnrXl9pgPxn3VXljzkUIwbM4',
+                'https://media.licdn.com/dms/image/v2/D4D2DAQFvaNGU7jRYsw/profile-treasury-image-shrink_480_480/B4DZ2upBCjGQAM-/0/1776751481998?e=1777456800&v=beta&t=TIPriJvPAauxV9q3OjbVXJeRIRzDtIYzvThclIlUSO8',
+                'https://media.licdn.com/dms/image/v2/D4D2DAQEezTGvE69t-A/profile-treasury-image-shrink_480_480/B4DZ2upBCmI4AM-/0/1776751481885?e=1777456800&v=beta&t=0yCXXAtBKuLB1YY4PrD_ZW_EEEBIjK8zKhAVhEpAR-M',
+                'https://media.licdn.com/dms/image/v2/D4D2DAQH4NIupZa0vdw/profile-treasury-image-shrink_480_480/B4DZ2upBCmJsAQ-/0/1776751482068?e=1777456800&v=beta&t=KsJvUCjBSJJ3ITLv_TVXAVy1P-0-7etDDX8NscoZ16A'
             ]
         }
     ]
