@@ -30,6 +30,15 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+import requests as http_requests
+
+def verify_turnstile(token):
+    r = http_requests.post("https://challenges.cloudflare.com/turnstile/v0/siteverify", data={
+        "secret": os.environ.get("TURNSTILE_SECRET_KEY"),
+        "response": token
+    })
+    return r.json().get("success", False)
+
 # ─────────────────────────────────────────────
 # Brevo email helper
 # ─────────────────────────────────────────────
@@ -377,6 +386,10 @@ def index():
 # ─────────────────────────────────────────────
 @app.route('/send-message', methods=['POST'])
 def send_message():
+    token = request.form.get("cf-turnstile-response", "")
+    if not verify_turnstile(token):
+        flash("Verificação de segurança falhou. Tente novamente.", "error")
+        return redirect(url_for("login"))
     try:
         name = request.form.get('name')
         email = request.form.get('email')
@@ -409,6 +422,10 @@ def send_message():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        token = request.form.get("cf-turnstile-response", "")
+        if not verify_turnstile(token):
+            flash("Verificação de segurança falhou. Tente novamente.", "error")
+            return redirect(url_for("login"))
         email = request.form.get('email')
         if User.find_by_email(email) is None:
             flash('E-mail inválido', 'error')
