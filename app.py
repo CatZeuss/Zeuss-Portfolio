@@ -2,7 +2,6 @@ import os
 from flask import Flask, render_template, request, flash, redirect, url_for, abort
 from flask_mail import Mail, Message
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_sqlalchemy import SQLAlchemy
 import logging
 import markdown2
 from datetime import datetime, timedelta
@@ -12,13 +11,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev_key")
-
-# Database configuration
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
-app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-    "pool_recycle": 300,
-    "pool_pre_ping": True,
-}
 
 # Mail configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -32,23 +24,28 @@ app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
 # Initialize extensions
-db = SQLAlchemy(app)
 mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# Import models after db initialization
-from models import User, VerificationCode, Blog, BlogCategory
+# Import models (MongoDB — no SQLAlchemy)
+from models import User, VerificationCode, Blog, BlogCategory, seed_admin, seed_categories
 
-# Create all database tables
+# Seed admin user on startup
 with app.app_context():
-    db.create_all()
+    seed_admin()
+    seed_categories()
+
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.find_by_id(user_id)
 
+
+# ─────────────────────────────────────────────
+# Index
+# ─────────────────────────────────────────────
 @app.route('/')
 def index():
     projects = [
@@ -134,7 +131,6 @@ def index():
             ]
         }
     ]
-
     skills = {
         'Desenvolvimento': [
             {'name': 'Desenvolvimento Full-Stack', 'proficiency': 95,
@@ -185,7 +181,6 @@ def index():
              'description': 'Redação de normas, políticas e termos de serviço'}
         ]
     }
-
     services = [
         {
             'name': 'Landing Page',
@@ -352,10 +347,12 @@ def index():
             ]
         }
     ]
-
     return render_template('index.html', projects=projects, skills=skills, services=services)
 
 
+# ─────────────────────────────────────────────
+# Contact
+# ─────────────────────────────────────────────
 @app.route('/send-message', methods=['POST'])
 def send_message():
     try:
@@ -363,11 +360,9 @@ def send_message():
         email = request.form.get('email')
         subject = request.form.get('subject')
         message = request.form.get('message')
-
         if not all([name, email, subject, message]):
             flash('Por favor, preencha todos os campos.', 'error')
             return redirect(url_for('index', _anchor='contact'))
-
         msg = Message(
             subject=f"Contato desde o portfólio: {subject}",
             recipients=[app.config['MAIL_USERNAME']],
@@ -376,7 +371,6 @@ def send_message():
             Nome: {name}
             E-mail: {email}
             Assunto: {subject}
-
             Mensagem:
             {message}
             """
@@ -386,20 +380,19 @@ def send_message():
     except Exception as e:
         logging.error(f"Erro enviando o e-mail: {str(e)}")
         flash('Um erro ocorreu durante o envio da sua mensagem.', 'error')
-
     return redirect(url_for('index', _anchor='contact'))
 
 
+# ─────────────────────────────────────────────
+# Auth
+# ─────────────────────────────────────────────
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
-
         if email != 'zeuss.developer@gmail.com':
             flash('E-mail inválido', 'error')
             return redirect(url_for('login'))
-
-        # Generate and send verification code
         code = VerificationCode.create(email)
         msg = Message(
             'Seu código de verificação',
@@ -409,7 +402,6 @@ def login():
         mail.send(msg)
         flash('Código de verificação enviado.', 'success')
         return redirect(url_for('verify_code', email=email))
-
     return render_template('auth/login.html')
 
 
@@ -417,17 +409,16 @@ def login():
 def verify_code(email):
     if email != 'zeuss.developer@gmail.com':
         abort(404)
-
     if request.method == 'POST':
         code = request.form.get('code')
         if VerificationCode.verify(email, code):
             user = User.find_by_email(email)
             if not user:
                 user = User.create(email=email, is_admin=True)
+            user.update_last_login()
             login_user(user, remember=True)
             return redirect(url_for('blog_dashboard'))
         flash('Código inválido ou expirado', 'error')
-
     return render_template('auth/verify_code.html', email=email)
 
 
@@ -438,25 +429,25 @@ def logout():
     return redirect(url_for('index'))
 
 
+# ─────────────────────────────────────────────
+# Blog
+# ─────────────────────────────────────────────
 @app.route('/blog')
 def blog_list():
-    categories = BlogCategory.query.all()
+    categories = BlogCategory.get_all()
     category_id = request.args.get('category')
-    query = Blog.query.filter_by(status='published')
-
     if category_id:
-        query = query.filter_by(category_id=int(category_id))
-
-    blogs = query.order_by(Blog.created_at.desc()).all()
+        blogs = Blog.get_by_category(category_id, status='published')
+    else:
+        blogs = Blog.get_all(status='published')
     return render_template('blog/list.html', blogs=blogs, categories=categories)
 
 
 @app.route('/blog/<blog_id>')
 def blog_detail(blog_id):
-    blog = Blog.query.get(blog_id)
+    blog = Blog.get(blog_id)
     if not blog or (blog.status != 'published' and not current_user.is_authenticated):
         abort(404)
-
     content_html = markdown2.markdown(blog.content)
     return render_template('blog/detail.html', blog=blog, content_html=content_html)
 
@@ -466,8 +457,8 @@ def blog_detail(blog_id):
 def blog_dashboard():
     if current_user.email != 'zeuss.developer@gmail.com':
         abort(403)
-    blogs = Blog.query.all()
-    categories = BlogCategory.query.all()
+    blogs = Blog.get_all()
+    categories = BlogCategory.get_all()
     return render_template('blog/dashboard.html', blogs=blogs, categories=categories)
 
 
@@ -476,65 +467,60 @@ def blog_dashboard():
 def blog_create():
     if current_user.email != 'zeuss.developer@gmail.com':
         abort(403)
-
     if request.method == 'POST':
         category_id = request.form.get('category_id')
-
         if not category_id:
             flash('Por favor, selecione uma categoria.', 'error')
-            categories = BlogCategory.query.all()
+            categories = BlogCategory.get_all()
             return render_template('blog/editor.html', categories=categories)
-
         try:
-            category_id = int(category_id)
-            category = BlogCategory.query.get(category_id)
+            category = BlogCategory.get_by_id(category_id)
             if not category:
-                raise ValueError("Invalid category")
-
-            blog = Blog(
+                raise ValueError("Categoria inválida")
+            Blog.create(
                 title=request.form.get('title'),
                 content=request.form.get('content'),
                 category_id=category_id,
                 author_id=current_user.id,
                 status=request.form.get('status', 'draft')
             )
-            db.session.add(blog)
-            db.session.commit()
             flash('Blog criado com sucesso!', 'success')
             return redirect(url_for('blog_dashboard'))
-
         except (ValueError, TypeError):
             flash('Categoria inválida!', 'error')
-            categories = BlogCategory.query.all()
+            categories = BlogCategory.get_all()
             return render_template('blog/editor.html', categories=categories)
-
-    categories = BlogCategory.query.all()
+    categories = BlogCategory.get_all()
     return render_template('blog/editor.html', categories=categories)
 
 
-@app.route('/blog/edit/<int:blog_id>', methods=['GET', 'POST'])
+@app.route('/blog/edit/<blog_id>', methods=['GET', 'POST'])
 @login_required
 def blog_edit(blog_id):
     if current_user.email != 'zeuss.developer@gmail.com':
         abort(403)
-
-    blog = Blog.query.get_or_404(blog_id)
-
+    blog = Blog.get(blog_id)
+    if not blog:
+        abort(404)
     if request.method == 'POST':
         blog.title = request.form.get('title')
         blog.content = request.form.get('content')
         blog.category_id = request.form.get('category_id')
         blog.status = request.form.get('status', 'draft')
-        db.session.commit()
+        blog.save()
         flash('Blog atualizado com sucesso!', 'success')
         return redirect(url_for('blog_dashboard'))
-
-    categories = BlogCategory.query.all()
+    categories = BlogCategory.get_all()
     return render_template('blog/editor.html', blog=blog, categories=categories)
 
+
+# ─────────────────────────────────────────────
+# Terms
+# ─────────────────────────────────────────────
 @app.route('/terms')
 def terms():
     return render_template('terms.html')
 
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
