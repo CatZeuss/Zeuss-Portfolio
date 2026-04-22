@@ -1,6 +1,6 @@
 import os
+import requests as http_requests
 from flask import Flask, render_template, request, flash, redirect, url_for, abort
-from flask_mail import Mail, Message
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import logging
 import markdown2
@@ -12,30 +12,48 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev_key")
 
-# Mail configuration
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
+# Brevo API configuration
+BREVO_API_KEY = os.environ.get("BREVO_API_KEY")
+BREVO_URL = "https://api.brevo.com/v3/smtp/email"
+SENDER_EMAIL = os.environ.get("BREVO_SENDER")
+SENDER_NAME = "KattZeuss System"
 
 # Session configuration
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
 # Initialize extensions
-mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# Import models (MongoDB — no SQLAlchemy)
-from models import User, VerificationCode, Blog, BlogCategory, seed_admin, seed_categories
+# ─────────────────────────────────────────────
+# Brevo email helper
+# ─────────────────────────────────────────────
+def send_email(to_email, to_name, subject, html_content):
+    """Envia um e-mail via Brevo API."""
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "api-key": BREVO_API_KEY
+    }
+    data = {
+        "sender": {"email": SENDER_EMAIL, "name": SENDER_NAME},
+        "to": [{"email": to_email, "name": to_name}],
+        "subject": subject,
+        "htmlContent": html_content
+    }
+    response = http_requests.post(BREVO_URL, headers=headers, json=data)
+    if not response.ok:
+        raise Exception(f"Brevo API error {response.status_code}: {response.text}")
+    return response
+
+
+# Import models
+from models import User, VerificationCode, Blog, BlogCategory, seed_admin
 
 # Seed admin user on startup
 with app.app_context():
     seed_admin()
-    seed_categories()
 
 
 @login_manager.user_loader
@@ -363,19 +381,17 @@ def send_message():
         if not all([name, email, subject, message]):
             flash('Por favor, preencha todos os campos.', 'error')
             return redirect(url_for('index', _anchor='contact'))
-        msg = Message(
+        send_email(
+            to_email=SENDER_EMAIL,
+            to_name=SENDER_NAME,
             subject=f"Contato desde o portfólio: {subject}",
-            recipients=[app.config['MAIL_USERNAME']],
-            reply_to=email,
-            body=f"""
-            Nome: {name}
-            E-mail: {email}
-            Assunto: {subject}
-            Mensagem:
-            {message}
+            html_content=f"""
+            <p><strong>Nome:</strong> {name}</p>
+            <p><strong>E-mail:</strong> {email}</p>
+            <p><strong>Assunto:</strong> {subject}</p>
+            <p><strong>Mensagem:</strong><br>{message}</p>
             """
         )
-        mail.send(msg)
         flash('Mensagem enviada com sucesso!', 'success')
     except Exception as e:
         logging.error(f"Erro enviando o e-mail: {str(e)}")
@@ -390,16 +406,20 @@ def send_message():
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
-        if email != 'zeuss.developer@gmail.com':
+        if User.find_by_email(email) is None:
             flash('E-mail inválido', 'error')
             return redirect(url_for('login'))
         code = VerificationCode.create(email)
-        msg = Message(
-            'Seu código de verificação',
-            recipients=[email],
-            body=f'Seu código de verificação do portfólio é: {code}\nVálido por 15 minutos.'
+        send_email(
+            to_email=email,
+            to_name=User.find_by_email(email).username,
+            subject="Seu código de verificação",
+            html_content=f"""
+            <p>Seu código de verificação do portfólio é:</p>
+            <h2 style="letter-spacing:4px">{code}</h2>
+            <p>Válido por 15 minutos.</p>
+            """
         )
-        mail.send(msg)
         flash('Código de verificação enviado.', 'success')
         return redirect(url_for('verify_code', email=email))
     return render_template('auth/login.html')
@@ -407,14 +427,14 @@ def login():
 
 @app.route('/verify-code/<email>', methods=['GET', 'POST'])
 def verify_code(email):
-    if email != 'zeuss.developer@gmail.com':
+    if User.find_by_email(email) is None:
         abort(404)
     if request.method == 'POST':
         code = request.form.get('code')
         if VerificationCode.verify(email, code):
             user = User.find_by_email(email)
             if not user:
-                user = User.create(email=email, is_admin=True)
+                user = User.create(email=email, is_admin=False)
             user.update_last_login()
             login_user(user, remember=True)
             return redirect(url_for('blog_dashboard'))
@@ -455,7 +475,7 @@ def blog_detail(blog_id):
 @app.route('/dashboard', methods=['GET'])
 @login_required
 def blog_dashboard():
-    if current_user.email != 'zeuss.developer@gmail.com':
+    if User.find_by_email(current_user.email) is None:
         abort(403)
     blogs = Blog.get_all()
     categories = BlogCategory.get_all()
@@ -465,7 +485,7 @@ def blog_dashboard():
 @app.route('/blog/new', methods=['GET', 'POST'])
 @login_required
 def blog_create():
-    if current_user.email != 'zeuss.developer@gmail.com':
+    if User.find_by_email(current_user.email) is None:
         abort(403)
     if request.method == 'POST':
         category_id = request.form.get('category_id')
@@ -497,7 +517,7 @@ def blog_create():
 @app.route('/blog/edit/<blog_id>', methods=['GET', 'POST'])
 @login_required
 def blog_edit(blog_id):
-    if current_user.email != 'zeuss.developer@gmail.com':
+    if User.find_by_email(current_user.email) is None:
         abort(403)
     blog = Blog.get(blog_id)
     if not blog:
@@ -523,4 +543,4 @@ def terms():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

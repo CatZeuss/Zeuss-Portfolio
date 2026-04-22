@@ -1,0 +1,6 @@
+flask
+flask-login
+flask-pymongo
+pymongo
+requests
+markdown2
