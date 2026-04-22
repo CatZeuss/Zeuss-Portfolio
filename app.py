@@ -387,6 +387,10 @@ def index():
 @app.route('/send-message', methods=['POST'])
 def send_message():
     token = request.form.get("cf-turnstile-response", "")
+    if not token:
+        flash("Captcha ausente.", "error")
+        return redirect(url_for("login"))
+    
     if not verify_turnstile(token):
         flash("Verificação de segurança falhou. Tente novamente.", "error")
         return redirect(url_for("login"))
@@ -423,6 +427,9 @@ def send_message():
 def login():
     if request.method == 'POST':
         token = request.form.get("cf-turnstile-response", "")
+        if not token:
+            flash("Captcha ausente.", "error")
+            return redirect(url_for("login"))
         if not verify_turnstile(token):
             flash("Verificação de segurança falhou. Tente novamente.", "error")
             return redirect(url_for("login"))
