@@ -37,14 +37,8 @@ body {
     pointer-events: none;
 }
 
-/* Ensure all content is above the canvas */
-nav, main, footer, aside, #pageLoader, #whatsappFab,
-#mobileSidebar, #sidebarOverlay, #flashContainer {
-    position: relative;
-    z-index: 1;
-}
-#pageLoader, #whatsappFab, #mobileSidebar,
-#sidebarOverlay, #flashContainer { z-index: auto; }
+
+
 
 
 /* ── Page Loader ────────────────────────────── */
@@ -256,9 +250,6 @@ nav, main, footer, aside, #pageLoader, #whatsappFab,
     transform: translateX(3px);
 }
 
-#mobileSidebar {
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-}
 
 
 /* ── WhatsApp FAB ───────────────────────────── */
