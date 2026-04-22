@@ -89,10 +89,16 @@ def index():
             },
             'tech': ['HTML', 'CSS', 'MongoDB', 'Websockets', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'JQuery', 'Backend', 'Frontend', 'API', 'Redis', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting'],
             'images': [
-                'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/49ab5c7c-d4ca-4f3d-649f-47b439b19600/public',
-                'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/e5ac26c0-3258-4e11-53dc-d38590f46200/public',
-                'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/bcd76b07-f789-4821-8b9d-6c2905bd0600/public',
-                'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/c32f46b3-63ae-4551-d821-e5f82674b200/public'
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065108.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065406.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065532.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065626.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065729.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065826.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065928.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20070042.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20070218.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20070256.jpg'
             ]
         },
         {
@@ -167,11 +173,20 @@ def index():
             'links': {'web': 'support.art-koffee.com', 'github': 'github.com/ArtKoffee/ArtKoffee-Support'},
             'tech': ['HTML', 'CSS', 'MongoDB', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'Backend', 'Single Sign-On', 'Frontend', 'API', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting', 'Design', 'UI/UX', 'Prototipagem'],
             'images': [
-                'https://media.licdn.com/dms/image/v2/D4D2DAQF7TuigQHCoTQ/profile-treasury-image-shrink_480_480/B4DZ2upBCmJAAM-/0/1776751482047?e=1777456800&v=beta&t=WJk-P8P_1UbDhFZfMsdsvG-cXJt0oJscEhqtaLWgtAU',
-                'https://media.licdn.com/dms/image/v2/D4D2DAQGpyTBhV0oLIA/profile-treasury-image-shrink_480_480/B4DZ2upBCmJIAM-/0/1776751481989?e=1777456800&v=beta&t=FIMeBYBKoCqxnVC2GCVYnrXl9pgPxn3VXljzkUIwbM4',
-                'https://media.licdn.com/dms/image/v2/D4D2DAQFvaNGU7jRYsw/profile-treasury-image-shrink_480_480/B4DZ2upBCjGQAM-/0/1776751481998?e=1777456800&v=beta&t=TIPriJvPAauxV9q3OjbVXJeRIRzDtIYzvThclIlUSO8',
-                'https://media.licdn.com/dms/image/v2/D4D2DAQEezTGvE69t-A/profile-treasury-image-shrink_480_480/B4DZ2upBCmI4AM-/0/1776751481885?e=1777456800&v=beta&t=0yCXXAtBKuLB1YY4PrD_ZW_EEEBIjK8zKhAVhEpAR-M',
-                'https://media.licdn.com/dms/image/v2/D4D2DAQH4NIupZa0vdw/profile-treasury-image-shrink_480_480/B4DZ2upBCmJsAQ-/0/1776751482068?e=1777456800&v=beta&t=KsJvUCjBSJJ3ITLv_TVXAVy1P-0-7etDDX8NscoZ16A'
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20030033.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20030129.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20030151.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20030214.jpg',
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20030242.jpg'
+            ]
+        },
+        {
+            'name': 'ArtKoffee Atlas',
+            'description': 'Sistema de ArtKoffee que consiste em um painel de administração altamente seguro, onde o ArtKoffee pode ser administrado, moderado e gerenciado. Este sistema oferece funcionalidades para análise, moderação, suporte, depuração, administração geral e segurança.',
+            'links': {'web': 'admin.art-koffee.com', 'github': 'github.com/ArtKoffee/ArtKoffee-Admin'},
+            'tech': ['HTML', 'CSS', 'MongoDB', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'Backend', 'Single Sign-On', 'Frontend', 'API', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting', 'Design', 'UI/UX', 'Prototipagem'],
+            'images': [
+                'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20031145.jpg'
             ]
         }
     ]
