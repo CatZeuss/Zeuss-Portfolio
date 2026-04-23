@@ -526,8 +526,16 @@ def blog_detail(blog_id):
         abort(404)
     content_html = markdown2.markdown(
         blog.content,
-        extras=["fenced-code-blocks", "tables", "task_list", "strike", "break-on-newline", "smarty-pants"]
+        extras=["fenced-code-blocks", "tables", "task_list", "strike", "break-on-newline"]
     )
+    import re
+    def fix_href(m):
+        href = m.group(1)
+        href = re.sub(r"^/(?!/)", "", href)
+        if href and not href.startswith(("http", "mailto:", "#", "/")):
+            href = "https://" + href
+        return f'href="{href}"'
+    content_html = re.sub(r'href="([^"]*?)"', fix_href, content_html)
     return render_template('blog/detail.html', blog=blog, content_html=content_html)
 
 

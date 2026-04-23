@@ -294,20 +294,30 @@ print('Hello, Zeuss!')
     const textarea = document.getElementById('content');
     const preview  = document.getElementById('previewContent');
 
-    /* Custom renderer for links — force https:// */
+    /* Custom renderer for links: force https:// and handle marked v5+ token API */
     const renderer = new marked.Renderer();
-    renderer.link = function (href, title, text) {
-        if (href && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('#') && !href.startsWith('/')) {
-            href = 'https://' + href;
+    renderer.link = function (token) {
+        // marked v5+ passes a token object; older versions pass (href, title, text)
+        let href  = (token && typeof token === 'object') ? (token.href  || '') : (token || '');
+        let title = (token && typeof token === 'object') ? (token.title || '') : (arguments[1] || '');
+        let text  = (token && typeof token === 'object') ? (token.text  || '') : (arguments[2] || '');
+
+        // marked sometimes prepends '/' when no protocol detected -- strip it
+        if (typeof href === 'string') {
+            href = href.replace(/^\/(?!\/)/, '');
+            if (href && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('#')) {
+                href = 'https://' + href;
+            }
         }
+
         const t = title ? ` title="${title}"` : '';
         return `<a href="${href}"${t} target="_blank" rel="noopener noreferrer">${text}</a>`;
     };
 
     marked.setOptions({
         renderer,
-        gfm: true,        // GitHub Flavored Markdown (tables, strikethrough, task lists)
-        breaks: true,     // \n → <br>
+        gfm: true,
+        breaks: true,
         pedantic: false,
     });
 
