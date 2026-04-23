@@ -243,7 +243,7 @@
                     <h3 class="font-display font-bold text-base text-white mb-3">{{ service.name }}</h3>
                     <div class="pricing-price">
                         <span class="pricing-currency">R$</span>
-                        <span class="pricing-amount">{{ '{:,.0f}'.format(service.price) }}</span>
+                        <span class="pricing-amount">{{ str(service.price).replace('.', ',') }}</span>
                     </div>
                     <ul class="space-y-2 my-5 flex-1">
                         {% for feature in service.features %}

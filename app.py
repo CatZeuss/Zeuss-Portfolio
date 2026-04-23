@@ -554,7 +554,7 @@ def index():
             ]
         }
     ]
-    return render_template('index.html', projects=projects, skills=skills, services=services)
+    return render_template('index.html', projects=projects, skills=skills, services=services, str=str)
 
 
 # ─────────────────────────────────────────────
