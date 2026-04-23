@@ -379,7 +379,7 @@
                             <div class="pricing-from">A partir de</div>
                             <div class="pricing-price">
                                 <span class="pricing-currency">R$</span>
-                                <span class="pricing-amount">{{ '{:,.2f}'.format(service.price).replace(',','X').replace('.',',').replace('X','.') }}</span>
+                                <span class="pricing-amount">{{ str(service.price).replace(".", ",") }}</span>
                             </div>
 
                             <div class="w-full h-px bg-white/5 my-4"></div>
