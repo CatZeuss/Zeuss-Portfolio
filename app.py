@@ -248,23 +248,31 @@ def index():
                 'Design responsivo e personalizado',
                 'SEO otimizado',
                 'Formulário de contato',
+                'Animações suaves',
+                'Integração com Google Analytics Gratuitamente',
+                'CTA Otimizados',
                 'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
                 'Suporte por 1 ano',
-                'Integração com Google Analytics Gratuitamente'
+                'Código fonte 100% entregue + documentação',
+                'Otimização de performance + SEO técnico'
             ]
         },
         {
             'name': 'Site Institucional Básico',
-            'price': 2399.90,
+            'price': 2899.90,
             'features': [
                 'Design personalizado',
                 'Até 5 páginas',
                 'Blog integrado',
                 'Painel administrativo',
+                'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
-                'Banco de dados gratuito por 1 ano',
-                'Suporte por 1 ano'
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
             ]
         },
         {
@@ -275,23 +283,35 @@ def index():
                 'Até 15 páginas',
                 'Blog integrado com funcionalidades avançadas',
                 'Painel administrativo completo',
+                'Integração com WhatsApp Business API',
+                'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
-                'Banco de dados gratuito por 1 ano',
-                'Suporte por 1 ano'
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
             ]
         },
         {
             'name': 'E-commerce Completo',
-            'price': 2645.50,
+            'price': 4999.90,
             'features': [
                 'Catálogo de produtos + carrinho de compras + checkout',
                 'Gateway de pagamento',
                 'Gestão de estoque',
-                'Domínio .com.br gratis por 1 ano',
                 'Painel administrativo',
+                'Catálogo de até 500 produtos (com possibilidade de expansão)',
+                'Integração com Google Analytics + Stripe',
+                'Integração Pix',
+                'Integração com Mercado Pago',
+                'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
                 'Suporte por 1 ano',
-                'Integração com Google Analytics + Stripe Gratuitamente'
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
             ]
         },
         {
@@ -302,107 +322,235 @@ def index():
                 'Gestão de horários',
                 'Notificações por email',
                 'Área do cliente',
+                'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
                 'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
             ]
         },
         {
-            'name': 'Sistema de Delivery (Android)',
-            'price': 5199.90,
+            'name': 'Sistema de Delivery Híbrido (Android + iOS)',
+            'price': 7816.76,
             'features': [
+                '10% off - Preço original: R$ 8.685,29',
                 'Design personalizado',
-                'Domínio .com.br gratis por 1 ano',
-                'App android para clientes',
+                'Apps iOS + Android para clientes',
+                'Apps iOS + Android para entregadores',
                 'Painel para restaurantes',
                 'Rastreamento em tempo real',
-                'App android para entregadores',
-                'Servidor por 1 ano',
-                'Suporte por 1 ano'
-            ]
-        },
-        {
-            'name': 'Sistema de Delivery (iOS)',
-            'price': 5799.90,
-            'features': [
-                'Design personalizado',
                 'Domínio .com.br gratis por 1 ano',
-                'App iOS para clientes',
-                'Painel para restaurantes',
-                'Rastreamento em tempo real',
-                'App iOS para entregadores',
                 'Servidor por 1 ano',
-                'Suporte por 1 ano'
-            ]
-        },
-        {
-            'name': 'Sistema de Delivery (Android + iOS)',
-            'price': 7347.15,
-            'features': [
-                '10% off - Preço original: R$ 8.163,50',
-                'Design personalizado',
-                'Domínio .com.br gratis por 1 ano',
-                'App iOS + Android para clientes',
-                'Painel para restaurantes',
-                'Rastreamento em tempo real',
-                'App iOS + Android para entregadores',
-                'Servidor por 1 ano',
-                'Suporte por 1 ano'
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico',
+                'Importante: Apps Android e iOS são WebViews do sistema principal desenvolvidas com Appilix (não são nativas).'
             ]
         },
         {
             'name': 'Sistema de Reservas Hoteleiras',
-            'price': 3599.90,
+            'price': 4499.90,
             'features': [
                 'Gestão de quartos',
                 'Sistema de pagamento',
                 'Área do hóspede',
-                'App móvel incluso',
+                'Painel de controle',
+                'Integração com WhatsApp',
+                'Integração com Google Calendar',
+                'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
-                'Suporte por 1 ano'
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
             ]
         },
         {
-            'name': 'Aplicativo Mobile Completo',
-            'price': 5329.90,
+            'name': 'Aplicativo Mobile Híbrido Completo (Android + iOS)',
+            'price': 3533.99,
             'features': [
-                'Domínio .com.br gratis por 1 ano',
-                'Android & iOS',
                 'Design personalizado',
-                'Backend incluso',
+                'Apps iOS + Android',
+                'Frontend + Backend + API incluso',
                 'Painel de controle',
+                'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
-                'Suporte por 1 ano'
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico',
+                'Importante: Apps Android e iOS são WebViews do sistema principal desenvolvidas com Appilix (não são nativas).'
             ]
         },
         {
             'name': 'Sistema ERP',
-            'price': 5999.99,
+            'price': 6999.99,
             'features': [
                 'Sistema de gerenciamento de estoque',
-                'Domínio .com.br gratis por 1 ano',
                 'Gestão financeira',
                 'Controle de estoque',
                 'Recursos humanos',
                 'Relatórios avançados',
                 'Painel de controle',
                 'Sistema de Roles',
+                'Relatórios em tempo real',
+                'Exportação Excel/PDF',
+                'Domínio .com.br gratis por 1 ano',
                 'Servidor por 1 ano',
-                'Suporte por 1 ano'
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
             ]
         },
         {
             'name': 'Sistema de Escola/Curso',
-            'price': 4700.00,
+            'price': 4799.90,
             'features': [
                 '20% off para instituições públicas',
                 'Área do aluno',
                 'Portal do professor',
+                'Domínio .com.br gratis por 1 ano',
                 'Gestão de matrículas',
                 'Sistema de avaliação',
                 'Sistema de notas',
                 'Sistema de acompanhamento de frequência',
                 'Servidor por 1 ano',
-                'Suporte por 1 ano'
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
+            ]
+        },
+        {
+            'name': 'Plataforma / Rede Social Personalizada',
+            'price': 9799.90,
+            'features': [
+                'Design personalizado',
+                'Postagens e feeds',
+                'Configurações avançadas para usuários',
+                'Integração de chat em tempo real',
+                'Painel de controle para moderação, administração e gestão',
+                'Sistema de segurança avançado e robusto',
+                'Sistema de notificação em tempo real',
+                'Domínio .com.br gratis por 1 ano',
+                'Servidor por 1 ano',
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Otimização de performance + SEO técnico'
+            ]
+        },
+        {
+            'name': 'Sistema com IA integrada',
+            'price': 1599.90,
+            'features': [
+                'Chatbot',
+                'Automações',
+                'Suporte automático',
+                'Integração com WhatsApp, Telegram e/ou Discord',
+                'Domínio .com.br gratis por 1 ano caso aplicável',
+                'Servidor por 1 ano',
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet para você e sua equipe',
+                'Segurança avançada',
+                'Otimização de performance + SEO técnico'
+            ]
+        },
+        {
+            'name': 'CRM Simples para Pequenas Empresas',
+            'price': 3499.90,
+            'features': [
+                'Gestão de leads e clientes',
+                'Pipeline de vendas visual',
+                'Integração com WhatsApp Business',
+                'Notificações automáticas',
+                'Relatórios de conversão',
+                'Painel administrativo',
+                'Domínio .com.br gratis por 1 ano',
+                'Servidor por 1 ano',
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet',
+                'Segurança avançada',
+                'Otimização de performance'
+            ]
+        },
+        {
+            'name': 'Plataforma de Membresia / Assinaturas',
+            'price': 5299.90,
+            'features': [
+                'Área de membros com login',
+                'Planos de assinatura (mensal/anual)',
+                'Pagamento recorrente (Pix + cartão)',
+                'Conteúdo exclusivo (vídeos, arquivos, posts)',
+                'Comunidade / fórum interno',
+                'Painel administrativo completo',
+                'Domínio .com.br gratis por 1 ano',
+                'Servidor por 1 ano',
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet',
+                'Segurança avançada',
+                'Otimização de performance'
+            ]
+        },
+        {
+            'name': 'Dashboard Analítico Personalizado',
+            'price': 2899.90,
+            'features': [
+                'Dashboards em tempo real (vendas, usuários, métricas)',
+                'Gráficos interativos (DAU/MAU, funil de vendas, etc.)',
+                'Exportação Excel/PDF',
+                'Integração com Google Analytics e APIs externas',
+                'Alertas automáticos',
+                'Painel administrativo',
+                'Domínio .com.br gratis por 1 ano',
+                'Servidor por 1 ano',
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet',
+                'Segurança avançada'
+            ]
+        },
+        {
+            'name': 'Sistema de Ticketing / Helpdesk',
+            'price': 2599.90,
+            'features': [
+                'Gestão de tickets e suporte',
+                'Base de conhecimento (FAQ)',
+                'Notificações por email e WhatsApp',
+                'Sistema de roles e permissões',
+                'Relatórios de desempenho do suporte',
+                'Painel administrativo',
+                'Domínio .com.br gratis por 1 ano',
+                'Servidor por 1 ano',
+                'Suporte por 1 ano',
+                'Código fonte 100% entregue + documentação',
+                'Treinamento de 1h via Google Meet',
+                'Segurança avançada',
+            ]
+        },
+        {
+            'name': 'Manutenção e Suporte Mensal',
+            'price': "199.90/mês",
+            'features': [
+                'Servidor gratis durante o período',
+                'Solução de bugs e erros',
+                'Manutenção básica para funcionamento adequado',
+                'Prevenção de falhas identificadas pelo Desenvolvedor',
+                'Atualizações de segurança críticas',
+                'Atualizações mínimas de design, funcionalidades e conteúdo',
+                'Importante: Esse serviço é gratuito durante 1 ano em caso de desenvolvimento de algum dos produtos anteriores. Após esse prazo, serviços de manutenção poderão ser contratados separadamente mediante novo orçamento.'
             ]
         }
     ]
