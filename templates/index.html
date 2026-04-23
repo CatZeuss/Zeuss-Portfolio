@@ -1,65 +1,222 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+/* ── Pricing Carousel ── */
+.pricing-track-wrap {
+    position: relative;
+    overflow: hidden;
+}
+.pricing-track-wrap::before,
+.pricing-track-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60px;
+    z-index: 2;
+    pointer-events: none;
+}
+.pricing-track-wrap::before { left: 0;  background: linear-gradient(to right, var(--deep), transparent); }
+.pricing-track-wrap::after  { right: 0; background: linear-gradient(to left,  var(--deep), transparent); }
+
+.pricing-track {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    padding: 1rem 2rem 2rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    scrollbar-width: none;
+}
+.pricing-track::-webkit-scrollbar { display: none; }
+.pricing-track.is-dragging { cursor: grabbing; user-select: none; }
+
+.pricing-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+    border-radius: 16px;
+    background: rgba(26,26,46,0.7);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+.pricing-card:hover {
+    border-color: rgba(124,106,247,0.3);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(124,106,247,0.1);
+    transform: translateY(-4px);
+}
+.pricing-card-inner {
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.pricing-from {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+    margin-bottom: 0.1rem;
+}
+.pricing-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    margin-bottom: 0.2rem;
+}
+.pricing-currency { font-size: 0.85rem; font-weight: 700; color: var(--secondary); }
+.pricing-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+/* Warning feature */
+.feature-warn {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: rgba(251,191,36,0.85);
+    line-height: 1.5;
+}
+.feature-warn i { color: #fbbf24; margin-top: 0.15rem; flex-shrink: 0; font-size: 0.75rem; }
+
+/* Carousel arrows */
+.carousel-arrow {
+    position: absolute;
+    top: 50%; transform: translateY(-60%);
+    z-index: 10;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(26,26,46,0.95);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.65);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 0.8rem;
+}
+.carousel-arrow:hover {
+    background: rgba(124,106,247,0.2);
+    border-color: rgba(124,106,247,0.4);
+    color: #fff;
+    transform: translateY(-60%) scale(1.08);
+}
+.carousel-arrow.ca-left  { left: 2px; }
+.carousel-arrow.ca-right { right: 2px; }
+.carousel-arrow:disabled { opacity: 0.18; pointer-events: none; }
+
+/* Dots */
+.carousel-dots { display: flex; justify-content: center; gap: 0.4rem; margin-top: 0.6rem; }
+.carousel-dot {
+    width: 6px; height: 6px;
+    border-radius: 99px;
+    background: rgba(255,255,255,0.14);
+    cursor: pointer;
+    transition: background 0.3s, width 0.3s;
+}
+.carousel-dot.active { background: var(--secondary); width: 20px; }
+
+/* Drag hint */
+.drag-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.22);
+    margin-top: 0.4rem;
+    transition: opacity 0.5s ease;
+}
+
+/* ── Clarifications ── */
+.clarif-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.clarif-item {
+    background: rgba(26,26,46,0.55);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 1.2rem 1.3rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.clarif-item:hover { border-color: rgba(124,106,247,0.2); transform: translateY(-2px); }
+.clarif-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: 9px;
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    color: var(--secondary);
+}
+.clarif-sup {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 800;
+    color: var(--secondary);
+    vertical-align: super;
+    margin-right: 1px;
+}
+.clarif-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.82);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+}
+.clarif-body { font-size: 0.76rem; color: rgba(255,255,255,0.42); line-height: 1.65; }
+</style>
+
 <!-- ░░░ HERO ░░░ -->
 <section id="home" class="relative min-h-screen flex items-center overflow-hidden">
-
-    <!-- Decorative blobs -->
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
-
     <div class="container mx-auto px-6 py-32 relative z-10">
         <div class="max-w-3xl">
-
             <div class="hero-badge animate-on-scroll" data-delay="0">
                 <span class="badge-dot"></span>
                 Disponível para novos projetos
             </div>
-
             <h1 class="font-display font-extrabold text-5xl md:text-7xl leading-[1.07] mt-6 mb-5 animate-on-scroll" data-delay="100">
-                Olá, eu sou<br>
-                <span class="gradient-text">Sergio Ruiz</span>
+                Olá, eu sou<br><span class="gradient-text">Sergio Ruiz</span>
             </h1>
-
             <p class="text-lg md:text-xl text-white/55 max-w-xl leading-relaxed mb-10 animate-on-scroll" data-delay="200">
                 Desenvolvedor Full-Stack · UI/UX Designer · Gerente de Projetos.<br>
                 Transformo ideias em produtos digitais de alto impacto.
             </p>
-
             <div class="flex flex-wrap gap-4 animate-on-scroll" data-delay="300">
-                <a href="#projects" class="btn-primary glow-on-hover">
-                    <i class="fas fa-grid-2 text-sm"></i> Ver Trabalhos
-                </a>
-                <a href="#contact" class="btn-secondary">
-                    <i class="fas fa-paper-plane text-sm"></i> Contate-me
-                </a>
+                <a href="#projects" class="btn-primary glow-on-hover"><i class="fas fa-grid-2 text-sm"></i> Ver Trabalhos</a>
+                <a href="#contact" class="btn-secondary"><i class="fas fa-paper-plane text-sm"></i> Contate-me</a>
             </div>
-
-            <!-- Quick stats -->
             <div class="flex flex-wrap gap-8 mt-16 animate-on-scroll" data-delay="400">
-                <div class="stat-chip">
-                    <span class="stat-num">9+</span>
-                    <span class="stat-label">Projetos</span>
-                </div>
-                <div class="stat-chip">
-                    <span class="stat-num">10+</span>
-                    <span class="stat-label">Anos exp.</span>
-                </div>
-                <div class="stat-chip">
-                    <span class="stat-num">100%</span>
-                    <span class="stat-label">Dedicação</span>
-                </div>
+                <div class="stat-chip"><span class="stat-num">9+</span><span class="stat-label">Projetos</span></div>
+                <div class="stat-chip"><span class="stat-num">10+</span><span class="stat-label">Anos exp.</span></div>
+                <div class="stat-chip"><span class="stat-num">100%</span><span class="stat-label">Dedicação</span></div>
             </div>
         </div>
     </div>
-
-    <!-- Scroll indicator -->
     <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
         <span class="text-xs tracking-widest uppercase font-display">Scroll</span>
         <div class="scroll-caret"></div>
     </div>
 </section>
-
 
 <!-- ░░░ ABOUT ░░░ -->
 <section id="about" class="py-28 relative">
@@ -67,7 +224,6 @@
     <div class="container mx-auto px-6">
         <div class="section-label animate-on-scroll">Sobre mim</div>
         <h2 class="section-title animate-on-scroll" data-delay="80">Quem sou eu?</h2>
-
         <div class="mt-14 grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
             <div class="animate-on-scroll from-left">
                 <p class="text-white/65 text-lg leading-relaxed mb-6">
@@ -80,24 +236,17 @@
                     sempre com foco em performance, acessibilidade e identidade visual única.
                 </p>
                 <div class="flex gap-4 mt-8">
-                    <a href="https://github.com/CatZeuss" target="_blank" class="social-pill">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                    <a href="https://www.linkedin.com/in/sergio-r-molina/" target="_blank" class="social-pill">
-                        <i class="fab fa-linkedin-in"></i> LinkedIn
-                    </a>
-                    <a href="https://www.instagram.com/zeusskatt/" target="_blank" class="social-pill">
-                        <i class="fab fa-instagram"></i> Instagram
-                    </a>
+                    <a href="https://github.com/CatZeuss" target="_blank" class="social-pill"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://www.linkedin.com/in/sergio-r-molina/" target="_blank" class="social-pill"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                    <a href="https://www.instagram.com/zeusskatt/" target="_blank" class="social-pill"><i class="fab fa-instagram"></i> Instagram</a>
                 </div>
             </div>
-
             <div class="grid grid-cols-2 gap-4 animate-on-scroll from-right" data-delay="100">
                 {% set highlights = [
-                    ('fas fa-code',         'Full-Stack',   'Web & Mobile'),
-                    ('fas fa-paintbrush',   'UI/UX Design', 'Interfaces únicas'),
-                    ('fas fa-database',     'Databases',    'SQL & NoSQL'),
-                    ('fas fa-diagram-project', 'Gestão',   'Agile & Scrum'),
+                    ('fas fa-code','Full-Stack','Web & Mobile'),
+                    ('fas fa-paintbrush','UI/UX Design','Interfaces únicas'),
+                    ('fas fa-database','Databases','SQL & NoSQL'),
+                    ('fas fa-diagram-project','Gestão','Agile & Scrum'),
                 ] %}
                 {% for icon, title, sub in highlights %}
                 <div class="about-card">
@@ -111,14 +260,11 @@
     </div>
 </section>
 
-
 <!-- ░░░ PROJECTS ░░░ -->
 <section id="projects" class="py-28 relative">
     <div class="container mx-auto px-6">
         <div class="section-label animate-on-scroll">Portfólio</div>
         <h2 class="section-title animate-on-scroll" data-delay="80">Meus Trabalhos</h2>
-
-        <!-- Filter bar -->
         <div class="flex flex-wrap gap-2 mt-10 mb-12 animate-on-scroll" data-delay="120">
             <button class="filter-btn active" data-filter="all">Todos</button>
             {% set technologies = [] %}
@@ -131,57 +277,38 @@
             <button class="filter-btn" data-filter="{{ tech }}">{{ tech }}</button>
             {% endfor %}
         </div>
-
-        <!-- Cards grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for project in projects %}
-            <div class="project-card overflow-hidden animate-on-scroll" 
+            <div class="project-card overflow-hidden animate-on-scroll"
                  data-technologies="{{ project.tech|join(' ') }}"
                  data-delay="{{ loop.index0 * 60 }}">
-
-                <!-- Gallery -->
                 {% if project.images %}
                 <div class="project-gallery relative h-52">
                     <div class="gallery-container h-full">
                         {% for image in project.images %}
-                        <img src="{{ image }}" alt="{{ project.name }}"
-                             class="w-full h-52 object-cover flex-shrink-0">
+                        <img src="{{ image }}" alt="{{ project.name }}" class="w-full h-52 object-cover flex-shrink-0">
                         {% endfor %}
                     </div>
                     {% if project.images|length > 1 %}
                     <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 items-center">
-                        {% for _ in project.images %}
-                        <div class="gallery-dot"></div>
-                        {% endfor %}
+                        {% for _ in project.images %}<div class="gallery-dot"></div>{% endfor %}
                     </div>
-                    <!-- Nav arrows -->
-                    <button class="gallery-nav absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white text-xs flex items-center justify-center gallery-prev">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="gallery-nav absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white text-xs flex items-center justify-center gallery-next">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                    <button class="gallery-nav absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white text-xs flex items-center justify-center gallery-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="gallery-nav absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white text-xs flex items-center justify-center gallery-next"><i class="fas fa-chevron-right"></i></button>
                     {% endif %}
-                    <!-- Gradient overlay -->
                     <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#1a1a2e] to-transparent pointer-events-none"></div>
                 </div>
                 {% endif %}
-
                 <div class="p-5">
                     <h3 class="font-display font-bold text-lg text-white mb-1.5">{{ project.name }}</h3>
                     <p class="text-white/50 text-sm leading-relaxed mb-4">{{ project.description }}</p>
-
                     <div class="flex flex-wrap gap-1.5 mb-4">
-                        {% for tech in project.tech %}
-                        <span class="tech-tag">{{ tech }}</span>
-                        {% endfor %}
+                        {% for tech in project.tech %}<span class="tech-tag">{{ tech }}</span>{% endfor %}
                     </div>
-
                     <div class="flex flex-wrap gap-3 pt-3 border-t border-white/5">
                         {% for platform, link in project.links.items() %}
                         <a href="https://{{ link }}" target="_blank" class="project-link">
-                            <i class="fas fa-arrow-up-right-from-square text-xs"></i>
-                            {{ platform|capitalize }}
+                            <i class="fas fa-arrow-up-right-from-square text-xs"></i>{{ platform|capitalize }}
                         </a>
                         {% endfor %}
                     </div>
@@ -192,19 +319,17 @@
     </div>
 </section>
 
-
 <!-- ░░░ SKILLS ░░░ -->
 <section id="skills" class="py-28 relative">
     <div class="section-line-right"></div>
     <div class="container mx-auto px-6">
         <div class="section-label animate-on-scroll">Competências</div>
         <h2 class="section-title animate-on-scroll" data-delay="80">Habilidades</h2>
-
         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {% for category, skill_list in skills.items() %}
             <div class="glass-card p-7 animate-on-scroll" data-delay="{{ loop.index0 * 80 }}">
                 <h3 class="font-display font-bold text-base mb-6 flex items-center gap-2">
-                    <span class="w-1.5 h-5 rounded-full bg-gradient-to-b" style="background:linear-gradient(to bottom,var(--primary),var(--accent))"></span>
+                    <span class="w-1.5 h-5 rounded-full" style="background:linear-gradient(to bottom,var(--primary),var(--accent))"></span>
                     {{ category }}
                 </h3>
                 <div class="space-y-5">
@@ -226,41 +351,102 @@
     </div>
 </section>
 
-
 <!-- ░░░ PRICING ░░░ -->
 <section id="pricing" class="py-28 relative">
     <div class="container mx-auto px-6">
         <div class="section-label animate-on-scroll">Serviços</div>
         <h2 class="section-title animate-on-scroll" data-delay="80">Preços</h2>
-        <p class="text-white/45 text-center mt-3 mb-14 animate-on-scroll" data-delay="140">
+        <p class="text-white/45 text-center mt-3 mb-10 animate-on-scroll" data-delay="140">
             Soluções sob medida para cada necessidade e orçamento.
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for service in services %}
-            <div class="pricing-card animate-on-scroll" data-delay="{{ loop.index0 * 50 }}">
-                <div class="pricing-card-inner">
-                    <h3 class="font-display font-bold text-base text-white mb-3">{{ service.name }}</h3>
-                    <div class="pricing-price">
-                        <span class="pricing-currency">R$</span>
-                        <span class="pricing-amount">{{ str(service.price).replace('.', ',') }}</span>
+        <!-- Carousel -->
+        <div class="relative animate-on-scroll" data-delay="160">
+            <button class="carousel-arrow ca-left" id="pricePrev" aria-label="Anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-arrow ca-right" id="priceNext" aria-label="Próximo">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <div class="pricing-track-wrap">
+                <div class="pricing-track" id="pricingTrack">
+                    {% for service in services %}
+                    <div class="pricing-card">
+                        <div class="pricing-card-inner">
+                            <h3 class="font-display font-bold text-sm text-white mb-3 leading-snug">{{ service.name }}</h3>
+
+                            <div class="pricing-from">A partir de</div>
+                            <div class="pricing-price">
+                                <span class="pricing-currency">R$</span>
+                                <span class="pricing-amount">{{ '{:,.2f}'.format(service.price).replace(',','X').replace('.',',').replace('X','.') }}</span>
+                            </div>
+
+                            <div class="w-full h-px bg-white/5 my-4"></div>
+
+                            <ul class="space-y-2 flex-1 mb-5">
+                                {% for feature in service.features %}
+                                    {% if 'importante:' in feature.lower() %}
+                                    <li class="feature-warn">
+                                        <i class="fas fa-circle-exclamation"></i>
+                                        <span>{{ feature }}</span>
+                                    </li>
+                                    {% else %}
+                                    <li class="flex items-start gap-2 text-sm text-white/55">
+                                        <i class="fas fa-check text-xs mt-0.5 flex-shrink-0" style="color:var(--secondary)"></i>
+                                        <span>{{ feature }}</span>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+
+                            <a href="#contact"
+                               class="btn-primary w-full justify-center mt-auto glow-on-hover text-sm py-2.5"
+                               onclick="presetContactForm('{{ service.name }}','Bom dia, eu gostaria de pedir um {{ service.name }}')">
+                                Solicitar Orçamento
+                            </a>
+                        </div>
                     </div>
-                    <ul class="space-y-2 my-5 flex-1">
-                        {% for feature in service.features %}
-                        <li class="flex items-start gap-2.5 text-sm text-white/55">
-                            <i class="fas fa-check text-xs mt-0.5 flex-shrink-0" style="color:var(--secondary)"></i>
-                            {{ feature }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <a href="#contact"
-                       class="btn-primary w-full justify-center mt-auto glow-on-hover"
-                       onclick="presetContactForm('{{ service.name }}', 'Bom dia, eu gostaria de pedir um {{ service.name }}')">
-                        Solicitar Orçamento
-                    </a>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+
+            <div class="carousel-dots" id="pricingDots"></div>
+            <div class="drag-hint" id="dragHint">
+                <i class="fas fa-hand-pointer text-xs"></i>
+                Arraste ou use as setas para ver mais
+                <i class="fas fa-arrow-right text-xs"></i>
+            </div>
+        </div>
+
+        <!-- Clarifications -->
+        <div class="mt-20 animate-on-scroll" data-delay="80">
+            <div class="section-label mb-2">Informações adicionais</div>
+            <h3 class="font-display font-bold text-xl text-white text-center mb-1">O que está incluso?</h3>
+            <p class="text-white/38 text-sm text-center">Leia antes de contratar para entender exatamente o que você recebe.</p>
+
+            <div class="clarif-grid">
+                {% set clarifs = [
+                    (1,'fas fa-tag',            'Preços são "a partir de"',          'Todos os valores indicados são para projetos padrão (escopo básico descrito em cada pacote). Projetos com funcionalidades extras, integrações complexas ou requisitos personalizados recebem orçamento sob consulta.'),
+                    (2,'fab fa-android',         'Apps mobile são híbridas (WebView)','Todos os aplicativos Android e iOS são desenvolvidos com Appilix (conversão do site em app). Não são aplicativos 100% nativos, mas funcionam de forma fluida e profissional. Você recebe o login da conta Appilix para gerenciar as apps.'),
+                    (3,'fas fa-code',            'Código fonte 100% seu',             'Ao final do projeto você recebe todo o código fonte, documentação completa e direitos de uso ilimitado. Pode hospedar onde quiser e modificar livremente.'),
+                    (4,'fas fa-server',          'Domínio e Servidor',                'Incluo o registro do domínio .com.br por 1 ano em Registro.br (pago por mim e repassado a você) e hospedagem em servidor de qualidade (Railway ou similar) por 1 ano. Após esse período, a renovação fica por sua conta.'),
+                    (5,'fas fa-headset',         'Suporte por 1 ano incluso',         'Durante o primeiro ano após a entrega, qualquer bug ou problema causado pelo meu desenvolvimento é corrigido sem custo adicional. Atualizações pequenas de conteúdo ou design também estão incluídas.'),
+                    (6,'fas fa-chalkboard-user', 'Treinamento incluso',               'Ofereço 1 hora de treinamento via Google Meet para você e sua equipe aprenderem a usar o painel administrativo, fazer atualizações e gerenciar o sistema.'),
+                    (7,'fas fa-shield-halved',   'Segurança avançada',                'Todos os sistemas são construídos com defense-in-depth (múltiplas camadas de proteção), proteção contra ataques comuns, sessões seguras e boas práticas de desenvolvimento. Nenhum sistema é 100% inviolável, mas entrego o nível de segurança que uso no meu próprio projeto ArtKoffee.'),
+                    (8,'fas fa-wrench',          'Manutenção após o 1º ano',          'O suporte de 1 ano é gratuito. Depois disso, a manutenção mensal opcional é R$ 199,90/mês (ou orçamento sob consulta para pacotes maiores).'),
+                    (9,'fas fa-medal',           'Garantia',                          'Após a entrega, tenho 30 dias de garantia para refazer qualquer funcionalidade que não esteja de acordo com o combinado.'),
+                ] %}
+                {% for num, icon, title, body in clarifs %}
+                <div class="clarif-item animate-on-scroll" data-delay="{{ loop.index0 * 40 }}">
+                    <div class="clarif-icon"><i class="{{ icon }}"></i></div>
+                    <div>
+                        <div class="clarif-title"><sup class="clarif-sup">{{ num }}</sup>{{ title }}</div>
+                        <p class="clarif-body">{{ body }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
 
         <div class="text-center mt-12 animate-on-scroll">
@@ -271,7 +457,6 @@
     </div>
 </section>
 
-
 <!-- ░░░ CONTACT ░░░ -->
 <section id="contact" class="py-28 relative">
     <div class="blob blob-3"></div>
@@ -281,39 +466,30 @@
         <p class="text-white/45 text-center mt-3 mb-14 animate-on-scroll" data-delay="140">
             Tem um projeto em mente? Manda uma mensagem — respondo em até 24h.
         </p>
-
         <div class="max-w-2xl mx-auto animate-on-scroll" data-delay="160">
             <div class="glass-card p-8 md:p-10">
                 <form action="{{ url_for('send_message') }}" method="POST" class="space-y-5" id="contactForm">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="form-group">
                             <label for="name" class="form-label">Nome</label>
-                            <input type="text" id="name" name="name" required
-                                   class="form-input" placeholder="Seu nome completo">
+                            <input type="text" id="name" name="name" required class="form-input" placeholder="Seu nome completo">
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" id="email" name="email" required
-                                   class="form-input" placeholder="seu@email.com">
+                            <input type="email" id="email" name="email" required class="form-input" placeholder="seu@email.com">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="subject" class="form-label">Assunto</label>
-                        <input type="text" id="subject" name="subject" required
-                               class="form-input" placeholder="Sobre o que você quer conversar?">
+                        <input type="text" id="subject" name="subject" required class="form-input" placeholder="Sobre o que você quer conversar?">
                     </div>
                     <div class="form-group">
                         <label for="message" class="form-label">Mensagem</label>
-                        <textarea id="message" name="message" rows="5" required
-                                  class="form-input resize-none"
-                                  placeholder="Descreva seu projeto ou dúvida…"></textarea>
+                        <textarea id="message" name="message" rows="5" required class="form-input resize-none" placeholder="Descreva seu projeto ou dúvida…"></textarea>
                     </div>
-
-                    <!-- Turnstile CAPTCHA -->
                     <div class="flex justify-center">
                         <div class="cf-turnstile" data-sitekey="0x4AAAAAAAbmEEY_fT7q5yqj" data-theme="dark"></div>
                     </div>
-
                     <button type="submit" class="btn-primary w-full justify-center glow-on-hover py-3.5">
                         <i class="fas fa-paper-plane text-sm"></i> Enviar mensagem
                     </button>
@@ -323,25 +499,78 @@
     </div>
 </section>
 
-
 <!-- ░░░ FULLSCREEN MODAL ░░░ -->
 <div id="fullscreenModal" class="fixed inset-0 bg-black/92 backdrop-blur-md z-[70] hidden items-center justify-center">
-    <button id="closeModal"
-            class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all">
-        <i class="fas fa-xmark text-lg"></i>
-    </button>
-    <button id="prevImage"
-            class="absolute left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all hover:scale-110">
-        <i class="fas fa-chevron-left"></i>
-    </button>
-    <button id="nextImage"
-            class="absolute right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all hover:scale-110">
-        <i class="fas fa-chevron-right"></i>
-    </button>
+    <button id="closeModal" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all"><i class="fas fa-xmark text-lg"></i></button>
+    <button id="prevImage" class="absolute left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all hover:scale-110"><i class="fas fa-chevron-left"></i></button>
+    <button id="nextImage" class="absolute right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all hover:scale-110"><i class="fas fa-chevron-right"></i></button>
     <img src="" alt="" class="max-h-[88vh] max-w-[88vw] object-contain rounded-xl shadow-2xl">
 </div>
 
-<!-- Turnstile script -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+/* ── Pricing Carousel ── */
+(function () {
+    const track  = document.getElementById('pricingTrack');
+    const prev   = document.getElementById('pricePrev');
+    const next   = document.getElementById('priceNext');
+    const dotsEl = document.getElementById('pricingDots');
+    const hint   = document.getElementById('dragHint');
+    if (!track) return;
+
+    const cards = Array.from(track.querySelectorAll('.pricing-card'));
+    const gap   = 20;
+    const cardW = () => (cards[0]?.offsetWidth || 300) + gap;
+    const visible = () => Math.max(1, Math.round(track.offsetWidth / cardW()));
+    const pages   = () => Math.max(1, Math.ceil(cards.length / visible()));
+    const curPage = () => Math.round(track.scrollLeft / (cardW() * visible()));
+
+    /* Dots */
+    function buildDots() {
+        dotsEl.innerHTML = '';
+        for (let i = 0; i < pages(); i++) {
+            const d = document.createElement('div');
+            d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            d.addEventListener('click', () => goTo(i));
+            dotsEl.appendChild(d);
+        }
+    }
+
+    function goTo(p) {
+        track.scrollTo({ left: p * cardW() * visible(), behavior: 'smooth' });
+    }
+
+    function syncUI() {
+        const p = curPage();
+        dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === p));
+        prev.disabled = track.scrollLeft <= 2;
+        next.disabled = track.scrollLeft >= track.scrollWidth - track.offsetWidth - 2;
+    }
+
+    prev.addEventListener('click', () => track.scrollBy({ left: -cardW() * visible(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left:  cardW() * visible(), behavior: 'smooth' }));
+    track.addEventListener('scroll', syncUI, { passive: true });
+    window.addEventListener('resize', () => { buildDots(); syncUI(); });
+
+    buildDots();
+    syncUI();
+
+    /* Drag-to-scroll (desktop) */
+    let dragging = false, startX, scrollStart;
+    track.addEventListener('mousedown', e => {
+        dragging = true; startX = e.pageX; scrollStart = track.scrollLeft;
+        track.classList.add('is-dragging');
+    });
+    window.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        track.scrollLeft = scrollStart - (e.pageX - startX);
+    });
+    window.addEventListener('mouseup', () => { dragging = false; track.classList.remove('is-dragging'); });
+
+    /* Hide hint on first scroll */
+    track.addEventListener('scroll', () => { if (hint) hint.style.opacity = '0'; }, { once: true, passive: true });
+})();
+</script>
 
 {% endblock %}
