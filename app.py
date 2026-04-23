@@ -524,7 +524,10 @@ def blog_detail(blog_id):
     blog = Blog.get(blog_id)
     if not blog or (blog.status != 'published' and not current_user.is_authenticated):
         abort(404)
-    content_html = markdown2.markdown(blog.content)
+    content_html = markdown2.markdown(
+        blog.content,
+        extras=["fenced-code-blocks", "tables", "task_list", "strike", "break-on-newline", "smarty-pants"]
+    )
     return render_template('blog/detail.html', blog=blog, content_html=content_html)
 
 

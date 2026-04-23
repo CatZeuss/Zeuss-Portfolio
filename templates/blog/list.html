@@ -1,71 +1,159 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section class="py-20">
-    <div class="container mx-auto px-6">
-        <div class="flex justify-between items-center mb-12">
-            <h2 class="text-3xl font-bold text-white gradient-text">Blog</h2>
+
+<style>
+.blog-card {
+    background: rgba(26,26,46,0.65);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
+    display: flex;
+    flex-direction: column;
+}
+.blog-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(124,106,247,0.25);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(124,106,247,0.1);
+}
+.blog-card-body { padding: 1.6rem; display: flex; flex-direction: column; flex: 1; }
+.blog-excerpt { color: rgba(255,255,255,0.45); font-size: 0.9rem; line-height: 1.7; }
+
+.cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+}
+.cat-pill:hover, .cat-pill.active {
+    background: rgba(124,106,247,0.15);
+    border-color: rgba(124,106,247,0.35);
+    color: var(--secondary);
+}
+.cat-pill.active { box-shadow: 0 3px 14px rgba(124,106,247,0.25); }
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+.empty-icon {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(124,106,247,0.08);
+    border: 1px solid rgba(124,106,247,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary);
+}
+</style>
+
+<!-- Header -->
+<div style="background:linear-gradient(to bottom,rgba(124,106,247,0.05),transparent); border-bottom:1px solid rgba(255,255,255,0.04)">
+    <div class="container mx-auto px-6 pt-28 pb-14">
+        <div class="flex items-end justify-between gap-4 flex-wrap">
+            <div>
+                <div class="section-label mb-2">Publicações</div>
+                <h1 class="font-display font-extrabold text-4xl md:text-5xl text-white">Blog</h1>
+            </div>
             {% if current_user.is_authenticated and current_user.email == 'zeuss.developer@gmail.com' %}
-            <a href="{{ url_for('blog_create') }}"
-               class="glow-on-hover bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-lg">
-                Criar Post
+            <a href="{{ url_for('blog_create') }}" class="btn-primary">
+                <i class="fas fa-plus text-sm"></i> Novo Post
             </a>
             {% endif %}
         </div>
 
         {% if categories %}
-        <div class="flex flex-wrap justify-center gap-4 mb-8">
+        <div class="flex flex-wrap gap-2 mt-8">
             <a href="{{ url_for('blog_list') }}"
-               class="glow-on-hover px-4 py-2 rounded-full bg-white/10 text-white hover:bg-primary/20 transition-all duration-300
-                      {{ 'bg-primary' if not request.args.get('category') else '' }}">
-                Todas as categorias 
+               class="cat-pill {{ 'active' if not request.args.get('category') else '' }}">
+                <i class="fas fa-border-all text-xs"></i> Todos
             </a>
             {% for category in categories %}
             <a href="{{ url_for('blog_list', category=category.id) }}"
-               class="glow-on-hover px-4 py-2 rounded-full bg-white/10 text-white hover:bg-primary/20 transition-all duration-300
-                      {{ 'bg-primary' if request.args.get('category') == category.id|string else '' }}">
+               class="cat-pill {{ 'active' if request.args.get('category') == category.id|string else '' }}">
                 {{ category.name }}
             </a>
             {% endfor %}
         </div>
         {% endif %}
+    </div>
+</div>
 
+<!-- Grid -->
+<section class="py-16">
+    <div class="container mx-auto px-6">
         {% if blogs %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for blog in blogs %}
-            <article class="project-card rounded-lg overflow-hidden animate-on-scroll">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white mb-2">{{ blog.title }}</h3>
-                    <p class="text-gray-300 mb-4">
-                        {{ blog.content[:200] + '...' if blog.content|length > 200 else blog.content }}
+            <article class="blog-card animate-on-scroll" data-delay="{{ loop.index0 * 60 }}">
+                <!-- Category badge -->
+                <div class="px-5 pt-5 pb-0">
+                    {% if blog.category %}
+                    <span class="tech-tag">{{ blog.category.name }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="blog-card-body">
+                    <h2 class="font-display font-bold text-white text-xl leading-snug mb-3 mt-2">
+                        {{ blog.title }}
+                    </h2>
+                    <p class="blog-excerpt flex-1 mb-5">
+                        {{ blog.content[:180] | replace('#','') | replace('*','') | replace('`','') + '…'
+                           if blog.content|length > 180
+                           else blog.content | replace('#','') | replace('*','') | replace('`','') }}
                     </p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 text-sm">
-                            {{ blog.created_at.strftime('%B %d, %Y') }}
+
+                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                        <span class="text-xs text-white/30 flex items-center gap-1.5">
+                            <i class="fas fa-calendar-days text-xs"></i>
+                            {{ blog.created_at.strftime('%d %b %Y') }}
                         </span>
                         <a href="{{ url_for('blog_detail', blog_id=blog.id) }}"
-                           class="text-primary hover:text-secondary transition-colors duration-300">
+                           class="text-sm font-semibold text-secondary hover:text-white transition-colors flex items-center gap-1.5 group">
                             Ler mais
+                            <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
                         </a>
                     </div>
                 </div>
             </article>
             {% endfor %}
         </div>
+
         {% else %}
-        <div class="text-center py-20">
-            <h3 class="text-2xl text-gray-300 mb-4">Não tem blogs</h3>
+        <div class="empty-state animate-on-scroll">
+            <div class="empty-icon">
+                <i class="fas fa-pen-nib"></i>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white mb-2">Nenhum post ainda</h3>
             {% if current_user.is_authenticated and current_user.email == 'zeuss.developer@gmail.com' %}
-            <p class="text-gray-400 mb-8">Crie seu próprio blog!</p>
-            <a href="{{ url_for('blog_create') }}"
-               class="glow-on-hover bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg">
-                Crie seu primeiro blog
+            <p class="text-white/40 mb-8 text-sm">Comece a escrever agora mesmo.</p>
+            <a href="{{ url_for('blog_create') }}" class="btn-primary">
+                <i class="fas fa-plus text-sm"></i> Criar primeiro post
             </a>
             {% else %}
-            <p class="text-gray-400">Volte logo para mais conteúdo!</p>
+            <p class="text-white/40 text-sm">Volte em breve para novos conteúdos.</p>
             {% endif %}
         </div>
         {% endif %}
     </div>
 </section>
+
 {% endblock %}

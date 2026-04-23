@@ -1,66 +1,202 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section class="py-20">
-    <div class="container mx-auto px-6">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold text-white gradient-text">Blog Dashboard</h2>
-            <a href="{{ url_for('blog_create') }}"
-               class="glow-on-hover bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-lg">
-                New Blog Post
+
+<style>
+.dash-table { width: 100%; border-collapse: collapse; }
+.dash-table th {
+    padding: 0.75rem 1.1rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    white-space: nowrap;
+}
+.dash-table td {
+    padding: 1rem 1.1rem;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+}
+.dash-table tr:last-child td { border-bottom: none; }
+.dash-table tbody tr {
+    transition: background 0.2s ease;
+}
+.dash-table tbody tr:hover td { background: rgba(124,106,247,0.04); color: rgba(255,255,255,0.85); }
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.status-published {
+    background: rgba(52,211,153,0.12);
+    color: #6ee7b7;
+    border: 1px solid rgba(52,211,153,0.2);
+}
+.status-draft {
+    background: rgba(251,191,36,0.1);
+    color: #fcd34d;
+    border: 1px solid rgba(251,191,36,0.2);
+}
+
+.dash-stat {
+    padding: 1.4rem 1.6rem;
+    border-radius: 14px;
+    background: rgba(26,26,46,0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: border-color .3s ease;
+}
+.dash-stat:hover { border-color: rgba(124,106,247,0.25); }
+.dash-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+.dash-stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 0.35rem;
+}
+
+.table-wrap {
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(18,18,30,0.8);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+}
+
+@media(max-width:700px){
+    .dash-table thead { display: none; }
+    .dash-table tr { display: block; padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .dash-table td { display: flex; justify-content: space-between; padding: 0.3rem 0; border: none; font-size: 0.82rem; }
+    .dash-table td::before { content: attr(data-label); color: rgba(255,255,255,0.3); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+}
+</style>
+
+<!-- Header -->
+<div style="background:linear-gradient(to bottom,rgba(124,106,247,0.05),transparent);border-bottom:1px solid rgba(255,255,255,0.04)">
+    <div class="container mx-auto px-6 pt-28 pb-12">
+        <div class="flex items-end justify-between gap-4 flex-wrap">
+            <div>
+                <div class="section-label mb-1">Admin</div>
+                <h1 class="font-display font-extrabold text-4xl text-white">Dashboard</h1>
+            </div>
+            <a href="{{ url_for('blog_create') }}" class="btn-primary">
+                <i class="fas fa-plus text-sm"></i> Novo Post
             </a>
         </div>
+    </div>
+</div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="mb-6 p-4 rounded-lg {{ 'bg-green-500/20 text-green-300' if category == 'success' else 'bg-red-500/20 text-red-300' }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+<section class="py-12">
+<div class="container mx-auto px-6">
 
-        <div class="bg-white/5 backdrop-blur-lg rounded-lg overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-700">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Title</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Category</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Created</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-700">
-                    {% for blog in blogs %}
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-300">{{ blog.title }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-300">
-                            {% for category in categories %}
-                                {% if category.id == blog.category_id %}
-                                    {{ category.name }}
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                {{ 'bg-green-500/20 text-green-300' if blog.status == 'published' else 'bg-yellow-500/20 text-yellow-300' }}">
-                                {{ blog.status }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-300">
-                            {{ blog.created_at.strftime('%Y-%m-%d') }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <a href="{{ url_for('blog_edit', blog_id=blog.id) }}" 
-                               class="text-primary hover:text-secondary">Edit</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <!-- Stats -->
+    {% set published = blogs | selectattr('status', 'eq', 'published') | list %}
+    {% set drafts    = blogs | selectattr('status', 'eq', 'draft')     | list %}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div class="dash-stat animate-on-scroll">
+            <div class="dash-stat-num">{{ blogs|length }}</div>
+            <div class="dash-stat-label">Total</div>
+        </div>
+        <div class="dash-stat animate-on-scroll" data-delay="60">
+            <div class="dash-stat-num">{{ published|length }}</div>
+            <div class="dash-stat-label">Publicados</div>
+        </div>
+        <div class="dash-stat animate-on-scroll" data-delay="120">
+            <div class="dash-stat-num">{{ drafts|length }}</div>
+            <div class="dash-stat-label">Rascunhos</div>
+        </div>
+        <div class="dash-stat animate-on-scroll" data-delay="180">
+            <div class="dash-stat-num">{{ categories|length }}</div>
+            <div class="dash-stat-label">Categorias</div>
         </div>
     </div>
+
+    <!-- Table -->
+    <div class="table-wrap animate-on-scroll" data-delay="100">
+        {% if blogs %}
+        <div class="overflow-x-auto">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Status</th>
+                    <th>Criado em</th>
+                    <th style="text-align:right">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %}
+                <tr>
+                    <td data-label="Título">
+                        <a href="{{ url_for('blog_detail', blog_id=blog.id) }}"
+                           class="font-medium text-white/80 hover:text-white transition-colors hover:underline underline-offset-2">
+                            {{ blog.title }}
+                        </a>
+                    </td>
+                    <td data-label="Categoria">
+                        {% for category in categories %}
+                            {% if category.id == blog.category_id %}
+                            <span class="tech-tag">{{ category.name }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td data-label="Status">
+                        <span class="status-badge {{ 'status-published' if blog.status == 'published' else 'status-draft' }}">
+                            <i class="fas fa-{{ 'circle-check' if blog.status == 'published' else 'circle-half-stroke' }} text-xs"></i>
+                            {{ 'Publicado' if blog.status == 'published' else 'Rascunho' }}
+                        </span>
+                    </td>
+                    <td data-label="Criado em" class="whitespace-nowrap">
+                        {{ blog.created_at.strftime('%d %b %Y') }}
+                    </td>
+                    <td data-label="Ações" style="text-align:right">
+                        <div class="flex items-center justify-end gap-3">
+                            <a href="{{ url_for('blog_detail', blog_id=blog.id) }}"
+                               class="text-xs text-white/30 hover:text-white/70 transition-colors" title="Ver post">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('blog_edit', blog_id=blog.id) }}"
+                               class="text-xs text-secondary hover:text-white transition-colors" title="Editar">
+                                <i class="fas fa-pen"></i> Editar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% else %}
+        <div class="py-16 text-center text-white/30">
+            <i class="fas fa-inbox text-3xl mb-4 block"></i>
+            <p class="text-sm">Nenhum post ainda.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
 </section>
+
 {% endblock %}

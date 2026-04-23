@@ -1,35 +1,248 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section class="py-20">
+
+<style>
+/* ── Blog Detail Layout ── */
+.blog-hero {
+    background: linear-gradient(to bottom, rgba(124,106,247,0.06), transparent);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ── Prose Styles ── */
+.blog-prose { color: rgba(255,255,255,0.78); line-height: 1.85; font-size: 1.05rem; }
+
+.blog-prose h1,.blog-prose h2,.blog-prose h3,.blog-prose h4,.blog-prose h5,.blog-prose h6 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 2.2em;
+    margin-bottom: 0.6em;
+    line-height: 1.2;
+}
+.blog-prose h1 { font-size: 2rem; }
+.blog-prose h2 { font-size: 1.55rem; padding-bottom: 0.4em; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.blog-prose h3 { font-size: 1.25rem; }
+.blog-prose h4 { font-size: 1.05rem; color: rgba(255,255,255,0.85); }
+
+.blog-prose p { margin-bottom: 1.3em; }
+
+.blog-prose a {
+    color: var(--secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(167,139,250,0.4);
+    transition: color 0.2s, text-decoration-color 0.2s;
+}
+.blog-prose a:hover { color: #fff; text-decoration-color: rgba(255,255,255,0.5); }
+
+.blog-prose strong { color: #fff; font-weight: 700; }
+.blog-prose em { color: rgba(255,255,255,0.7); font-style: italic; }
+
+.blog-prose ul, .blog-prose ol {
+    margin: 1.2em 0 1.2em 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45em;
+}
+.blog-prose ul { list-style: none; }
+.blog-prose ul li { position: relative; padding-left: 1.4em; }
+.blog-prose ul li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.6em;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--secondary);
+}
+.blog-prose ol { list-style: decimal; }
+.blog-prose ol li { padding-left: 0.3em; }
+
+/* Checkboxes */
+.blog-prose input[type="checkbox"] {
+    appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(124,106,247,0.5);
+    background: rgba(124,106,247,0.08);
+    vertical-align: middle;
+    margin-right: 0.5em;
+    position: relative;
+    cursor: default;
+    flex-shrink: 0;
+}
+.blog-prose input[type="checkbox"]:checked {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+.blog-prose input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -2px; left: 2px;
+    font-size: 11px;
+    color: #fff;
+    font-weight: bold;
+}
+.blog-prose li:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 0;
+    gap: 0.4em;
+}
+.blog-prose li:has(input[type="checkbox"])::before { display: none; }
+
+/* Separator */
+.blog-prose hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(124,106,247,0.4), transparent);
+    margin: 2.5em 0;
+}
+
+/* Images */
+.blog-prose img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 1.5em auto;
+    display: block;
+    border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* Blockquote */
+.blog-prose blockquote {
+    border-left: 3px solid var(--primary);
+    margin: 1.5em 0;
+    padding: 0.8em 1.2em;
+    background: rgba(124,106,247,0.06);
+    border-radius: 0 10px 10px 0;
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+}
+
+/* Inline code */
+.blog-prose code:not(pre code) {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.85em;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    padding: 0.15em 0.45em;
+    color: #f9a8d4;
+}
+
+/* Code blocks */
+.blog-prose pre {
+    background: rgba(10,10,18,0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1.4em 1.6em;
+    overflow-x: auto;
+    margin: 1.6em 0;
+    position: relative;
+}
+.blog-prose pre code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.88em;
+    color: #e2e8f0;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1.7;
+}
+.blog-prose pre::before {
+    content: '';
+    position: absolute;
+    top: 12px; left: 14px;
+    display: flex;
+    gap: 6px;
+    width: 52px; height: 10px;
+    background:
+        radial-gradient(circle 4px, #ff5f56 0%, #ff5f56 100%) 0 0,
+        radial-gradient(circle 4px, #ffbd2e 0%, #ffbd2e 100%) 18px 0,
+        radial-gradient(circle 4px, #27c93f 0%, #27c93f 100%) 36px 0;
+    background-repeat: no-repeat;
+}
+.blog-prose pre { padding-top: 2.4em; }
+
+/* Tables */
+.blog-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.9em;
+}
+.blog-prose th, .blog-prose td {
+    padding: 0.7em 1em;
+    border: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+}
+.blog-prose th {
+    background: rgba(124,106,247,0.1);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: var(--secondary);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.blog-prose tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+</style>
+
+<!-- Back bar -->
+<div class="blog-hero pt-24 pb-12">
+    <div class="container mx-auto px-6 max-w-3xl">
+        <a href="{{ url_for('blog_list') }}"
+           class="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/80 transition-colors mb-8 group">
+            <i class="fas fa-arrow-left text-xs transition-transform group-hover:-translate-x-1"></i>
+            Voltar para o Blog
+        </a>
+
+        {% if blog.category %}
+        <span class="tech-tag mb-4 inline-block">{{ blog.category.name }}</span>
+        {% endif %}
+
+        <h1 class="font-display font-extrabold text-3xl md:text-5xl text-white leading-tight mb-5">
+            {{ blog.title }}
+        </h1>
+
+        <div class="flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex items-center gap-3 text-sm text-white/40">
+                <i class="fas fa-calendar-days text-xs"></i>
+                <time datetime="{{ blog.created_at.isoformat() }}">
+                    {{ blog.created_at.strftime('%d de %B de %Y') }}
+                </time>
+            </div>
+            {% if current_user.is_authenticated and current_user.email == 'zeuss.developer@gmail.com' %}
+            <a href="{{ url_for('blog_edit', blog_id=blog.id) }}" class="btn-secondary text-sm py-1.5 px-4">
+                <i class="fas fa-pen text-xs"></i> Editar
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<section class="py-14">
     <div class="container mx-auto px-6">
         <article class="max-w-3xl mx-auto">
-            <header class="mb-8">
-                <h1 class="text-4xl font-bold text-white gradient-text mb-4">{{ blog.title }}</h1>
-                <div class="flex justify-between items-center text-gray-400">
-                    <time datetime="{{ blog.created_at.isoformat() }}">
-                        {{ blog.created_at.strftime('%B %d, %Y') }}
-                    </time>
-                    {% if current_user.is_authenticated and current_user.email == 'zeuss.developer@gmail.com' %}
-                    <a href="{{ url_for('blog_edit', blog_id=blog.id) }}"
-                       class="text-primary hover:text-secondary transition-colors duration-300">
-                        Editar Blog
-                    </a>
-                    {% endif %}
-                </div>
-            </header>
-
-            <div class="prose prose-invert max-w-none">
+            <div class="blog-prose">
                 {{ content_html|safe }}
             </div>
 
-            <footer class="mt-8 pt-8 border-t border-gray-700">
+            <!-- Footer -->
+            <footer class="mt-16 pt-8 border-t border-white/5 flex items-center justify-between gap-4 flex-wrap">
                 <a href="{{ url_for('blog_list') }}"
-                   class="text-primary hover:text-secondary transition-colors duration-300">
-                    ← Voltar para blogs
+                   class="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/75 transition-colors group">
+                    <i class="fas fa-arrow-left text-xs transition-transform group-hover:-translate-x-1"></i>
+                    Todos os posts
                 </a>
+                <div class="flex items-center gap-3 text-white/25 text-sm">
+                    <i class="fas fa-user-astronaut text-xs"></i>
+                    <span>Zeuss</span>
+                </div>
             </footer>
         </article>
     </div>
 </section>
+
 {% endblock %}
