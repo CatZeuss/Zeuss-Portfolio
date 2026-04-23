@@ -135,7 +135,7 @@
     background: rgba(10,10,18,0.8);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 12px;
-    padding: 1.4em 1.6em;
+    padding: 2.4em 1.6em 1.4em;
     overflow-x: auto;
     margin: 1.6em 0;
     position: relative;
@@ -148,28 +148,34 @@
     border: none;
     padding: 0;
     line-height: 1.7;
+    white-space: pre;
 }
+/* macOS dots via box-shadow — reliable cross-browser */
 .blog-prose pre::before {
     content: '';
     position: absolute;
-    top: 12px; left: 14px;
-    display: flex;
-    gap: 6px;
-    width: 52px; height: 10px;
-    background:
-        radial-gradient(circle 4px, #ff5f56 0%, #ff5f56 100%) 0 0,
-        radial-gradient(circle 4px, #ffbd2e 0%, #ffbd2e 100%) 18px 0,
-        radial-gradient(circle 4px, #27c93f 0%, #27c93f 100%) 36px 0;
-    background-repeat: no-repeat;
+    top: 13px;
+    left: 14px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff5f56;
+    box-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+    display: block;
 }
-.blog-prose pre { padding-top: 2.4em; }
 
-/* Tables */
+/* Tables — wrap with horizontal scroll */
 .blog-prose table {
-    width: 100%;
     border-collapse: collapse;
     margin: 1.5em 0;
     font-size: 0.9em;
+    min-width: 100%;
+}
+/* Wrap tables so they scroll horizontally instead of overflowing */
+.blog-prose :where(table) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 .blog-prose th, .blog-prose td {
     padding: 0.7em 1em;
