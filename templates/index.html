@@ -185,30 +185,39 @@
 </style>
 
 <!-- ░░░ HERO ░░░ -->
+<!-- ░░░ HERO ░░░ -->
 <section id="home" class="relative min-h-screen flex items-center overflow-hidden">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="container mx-auto px-6 py-32 relative z-10">
-        <div class="max-w-3xl">
-            <div class="hero-badge animate-on-scroll" data-delay="0">
-                <span class="badge-dot"></span>
-                Disponível para novos projetos
+        <div class="flex items-center justify-between gap-8">
+            <!-- Texto (esquerda) -->
+            <div class="max-w-3xl flex-1">
+                <div class="hero-badge animate-on-scroll" data-delay="0">
+                    <span class="badge-dot"></span>
+                    Disponível para novos projetos
+                </div>
+                <h1 class="font-display font-extrabold text-5xl md:text-7xl leading-[1.07] mt-6 mb-5 animate-on-scroll" data-delay="100">
+                    Olá, eu sou<br><span class="gradient-text">Sergio Ruiz</span>
+                </h1>
+                <p class="text-lg md:text-xl text-white/55 max-w-xl leading-relaxed mb-10 animate-on-scroll" data-delay="200">
+                    Desenvolvedor Full-Stack · UI/UX Designer · Gerente de Projetos.<br>
+                    Transformo ideias em produtos digitais de alto impacto.
+                </p>
+                <div class="flex flex-wrap gap-4 animate-on-scroll" data-delay="300">
+                    <a href="#projects" class="btn-primary glow-on-hover"><i class="fas fa-grid-2 text-sm"></i> Ver Trabalhos</a>
+                    <a href="#contact" class="btn-secondary"><i class="fas fa-paper-plane text-sm"></i> Contate-me</a>
+                </div>
+                <div class="flex flex-wrap gap-8 mt-16 animate-on-scroll" data-delay="400">
+                    <div class="stat-chip"><span class="stat-num">9+</span><span class="stat-label">Projetos</span></div>
+                    <div class="stat-chip"><span class="stat-num">10+</span><span class="stat-label">Anos exp.</span></div>
+                    <div class="stat-chip"><span class="stat-num">100%</span><span class="stat-label">Dedicação</span></div>
+                </div>
             </div>
-            <h1 class="font-display font-extrabold text-5xl md:text-7xl leading-[1.07] mt-6 mb-5 animate-on-scroll" data-delay="100">
-                Olá, eu sou<br><span class="gradient-text">Sergio Ruiz</span>
-            </h1>
-            <p class="text-lg md:text-xl text-white/55 max-w-xl leading-relaxed mb-10 animate-on-scroll" data-delay="200">
-                Desenvolvedor Full-Stack · UI/UX Designer · Gerente de Projetos.<br>
-                Transformo ideias em produtos digitais de alto impacto.
-            </p>
-            <div class="flex flex-wrap gap-4 animate-on-scroll" data-delay="300">
-                <a href="#projects" class="btn-primary glow-on-hover"><i class="fas fa-grid-2 text-sm"></i> Ver Trabalhos</a>
-                <a href="#contact" class="btn-secondary"><i class="fas fa-paper-plane text-sm"></i> Contate-me</a>
-            </div>
-            <div class="flex flex-wrap gap-8 mt-16 animate-on-scroll" data-delay="400">
-                <div class="stat-chip"><span class="stat-num">9+</span><span class="stat-label">Projetos</span></div>
-                <div class="stat-chip"><span class="stat-num">10+</span><span class="stat-label">Anos exp.</span></div>
-                <div class="stat-chip"><span class="stat-num">100%</span><span class="stat-label">Dedicação</span></div>
+
+            <!-- Galáxia (direita) — oculta no mobile -->
+            <div class="galaxy-hero-wrap hidden lg:flex items-center justify-center flex-shrink-0 animate-on-scroll" data-delay="200">
+                <canvas id="heroGalaxy" width="480" height="480"></canvas>
             </div>
         </div>
     </div>
@@ -217,6 +226,204 @@
         <div class="scroll-caret"></div>
     </div>
 </section>
+
+<style>
+.galaxy-hero-wrap {
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    position: relative;
+}
+.galaxy-hero-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 80px 30px var(--deep, #0a0a1a);
+    pointer-events: none;
+    z-index: 2;
+}
+#heroGalaxy {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    border-radius: 50%;
+}
+#heroGalaxy:active { cursor: grabbing; }
+</style>
+
+<script>
+(function () {
+    const canvas = document.getElementById('heroGalaxy');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const CX = W / 2, CY = H / 2;
+
+    let rotY = 0.3, rotX = 0.18;
+    let dragging = false, lastX = 0, lastY = 0;
+    let autoAngle = 0;
+
+    const ARMS = 4;
+    const STARS_PER_ARM = 420;
+    const DUST_PER_ARM = 180;
+    const CORE_STARS = 320;
+    const HALO_STARS = 180;
+
+    function rand(min, max) { return min + Math.random() * (max - min); }
+    function randNorm() {
+        let u = 0, v = 0;
+        while (!u) u = Math.random();
+        while (!v) v = Math.random();
+        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    const stars3D = [];
+
+    function makeArm(armIdx) {
+        const angleOffset = (armIdx / ARMS) * Math.PI * 2;
+        for (let i = 0; i < STARS_PER_ARM; i++) {
+            const t = i / STARS_PER_ARM;
+            const r = 20 + t * 220 + rand(-8, 8);
+            const theta = angleOffset + t * Math.PI * 3.2 + rand(-0.18, 0.18);
+            const scatter = rand(0, 18) * (1 - t * 0.4);
+            const x = r * Math.cos(theta) + randNorm() * scatter * 0.5;
+            const z = r * Math.sin(theta) + randNorm() * scatter * 0.5;
+            const y = randNorm() * (4 + t * 3);
+            const brightness = 0.5 + 0.5 * (1 - t) + rand(0, 0.3);
+            const size = rand(0.4, 1.8) * (1 - t * 0.5);
+            stars3D.push({ x, y, z, size, brightness, blue: t < 0.3, red: t > 0.7 && Math.random() > 0.7, isDust: false });
+        }
+        for (let i = 0; i < DUST_PER_ARM; i++) {
+            const t = i / DUST_PER_ARM;
+            const r = 30 + t * 210 + rand(-20, 20);
+            const theta = angleOffset + t * Math.PI * 3.2 + rand(-0.3, 0.3);
+            const scatter = rand(8, 28);
+            const x = r * Math.cos(theta) + randNorm() * scatter;
+            const z = r * Math.sin(theta) + randNorm() * scatter;
+            const y = randNorm() * 6;
+            stars3D.push({ x, y, z, size: rand(8, 28), brightness: rand(0.02, 0.09), isDust: true });
+        }
+    }
+
+    for (let a = 0; a < ARMS; a++) makeArm(a);
+
+    for (let i = 0; i < CORE_STARS; i++) {
+        const r = Math.abs(randNorm()) * 38;
+        const theta = rand(0, Math.PI * 2);
+        const phi = rand(0, Math.PI * 2);
+        stars3D.push({
+            x: r * Math.cos(theta) * Math.cos(phi),
+            y: r * Math.sin(phi) * 0.5,
+            z: r * Math.sin(theta) * Math.cos(phi),
+            size: rand(0.6, 2.2), brightness: 0.7 + rand(0, 0.3),
+            isCore: true, isDust: false
+        });
+    }
+
+    for (let i = 0; i < HALO_STARS; i++) {
+        const r = rand(180, 310);
+        const theta = rand(0, Math.PI * 2);
+        const phi = rand(0, Math.PI * 2);
+        stars3D.push({
+            x: r * Math.cos(theta) * Math.cos(phi),
+            y: r * Math.sin(phi) * 0.6,
+            z: r * Math.sin(theta) * Math.cos(phi),
+            size: rand(0.3, 0.9), brightness: rand(0.1, 0.35),
+            isHalo: true, isDust: false
+        });
+    }
+
+    function project(x, y, z, ry, rx) {
+        const cosY = Math.cos(ry), sinY = Math.sin(ry);
+        const x1 = x * cosY - z * sinY;
+        const z1 = x * sinY + z * cosY;
+        const cosX = Math.cos(rx), sinX = Math.sin(rx);
+        const y2 = y * cosX - z1 * sinX;
+        const z2 = y * sinX + z1 * cosX;
+        return { px: CX + x1, py: CY + y2, depth: z2 };
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+        const ry = rotY + autoAngle;
+        const projected = stars3D.map(s => {
+            const { px, py, depth } = project(s.x, s.y, s.z, ry, rotX);
+            return { ...s, px, py, depth };
+        });
+        projected.sort((a, b) => b.depth - a.depth);
+
+        for (const s of projected) {
+            if (s.isDust) {
+                const alpha = s.brightness * Math.min(1, (s.depth + 320) / 200);
+                ctx.globalAlpha = Math.max(0, alpha);
+                const grad = ctx.createRadialGradient(s.px, s.py, 0, s.px, s.py, s.size);
+                grad.addColorStop(0, 'rgba(180,160,255,0.18)');
+                grad.addColorStop(1, 'rgba(120,100,200,0)');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(s.px, s.py, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                continue;
+            }
+            const depthFade = Math.min(1, (s.depth + 320) / 250);
+            const alpha = Math.max(0, s.brightness * depthFade);
+            ctx.globalAlpha = alpha;
+            let color = s.isCore ? 'rgba(255,230,170,1)' :
+                        s.isHalo ? 'rgba(180,190,255,1)' :
+                        s.blue   ? 'rgba(160,200,255,1)' :
+                        s.red    ? 'rgba(255,160,120,1)' :
+                                   'rgba(240,230,210,1)';
+            const sz = Math.max(0.3, s.size * depthFade);
+            if (sz > 1.0) {
+                const grad = ctx.createRadialGradient(s.px, s.py, 0, s.px, s.py, sz * 2.2);
+                grad.addColorStop(0, color);
+                grad.addColorStop(0.4, color.replace(',1)', ',.5)'));
+                grad.addColorStop(1, color.replace(',1)', ',0)'));
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(s.px, s.py, sz * 2.2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(s.px, s.py, sz, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        ctx.globalAlpha = 1;
+        const coreGrad = ctx.createRadialGradient(CX, CY, 0, CX, CY, 55);
+        coreGrad.addColorStop(0, 'rgba(255,245,200,0.85)');
+        coreGrad.addColorStop(0.15, 'rgba(255,210,120,0.5)');
+        coreGrad.addColorStop(0.5, 'rgba(200,150,255,0.12)');
+        coreGrad.addColorStop(1, 'rgba(100,80,200,0)');
+        ctx.fillStyle = coreGrad;
+        ctx.beginPath();
+        ctx.arc(CX, CY, 55, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function loop() {
+        if (!dragging) autoAngle += 0.0018;
+        draw();
+        requestAnimationFrame(loop);
+    }
+    loop();
+
+    canvas.addEventListener('mousedown', e => {
+        dragging = true; lastX = e.clientX; lastY = e.clientY;
+    });
+    window.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        rotY += (e.clientX - lastX) * 0.008;
+        rotX += (e.clientY - lastY) * 0.006;
+        rotX = Math.max(-Math.PI / 2.2, Math.min(Math.PI / 2.2, rotX));
+        lastX = e.clientX; lastY = e.clientY;
+    });
+    window.addEventListener('mouseup', () => dragging = false);
+})();
+</script>
 
 <!-- ░░░ ABOUT ░░░ -->
 <section id="about" class="py-28 relative">
