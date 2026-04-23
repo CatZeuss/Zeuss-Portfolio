@@ -680,7 +680,7 @@
     // pause the loop bc performance
     let rafId = null;
     function loop(time) {
-        if (!dragging || performance.now()) autoAngle += 0.0035;
+        if (!dragging || !reducedMotion) autoAngle += 0.0035;
         draw(time || performance.now());
         rafId = requestAnimationFrame(loop);
     }
