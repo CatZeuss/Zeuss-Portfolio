@@ -84,7 +84,7 @@ Em vez de senha tradicional, usei OTP por email. O fluxo é:
 
 ## Veja o Resultado
 
-O portfolio está hospedado no Railway e pode ser acessado em [zeuss.up.railway.app](zeuss.up.railway.app).
+O portfolio está hospedado no Railway e pode ser acessado em [zeuss.up.railway.app](https://zeuss.up.railway.app).
 
 O código fonte está disponível no meu GitHub em [https://github.com/CatZeuss/Zeuss-Portfolio](https://github.com/CatZeuss/Zeuss-Portfolio). Você pode adaptá-lo e fazer sua própria versão se quiser!
 
