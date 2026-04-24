@@ -85,7 +85,8 @@ def index():
             'description': 'Uma rede social para artistas compartilharem arte digital.',
             'links': {
                 'web': 'www.art-koffee.com/home',
-                'android': 'play.google.com/store/apps/details?id=com.koffeedevs.artkoffee'
+                'android': 'play.google.com/store/apps/details?id=com.koffeedevs.artkoffee',
+                'github': 'github.com/ArtKoffee/ArtKoffee'
             },
             'tech': ['HTML', 'CSS', 'MongoDB', 'Websockets', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'JQuery', 'Backend', 'Frontend', 'API', 'Redis', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting'],
             'images': [
@@ -105,7 +106,7 @@ def index():
             'name': 'Pousadas Casa Do Ivo',
             'description': 'Site oficial de uma rede de pousadas no oeste do Pará.',
             'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
-            'links': {'web': 'casadoivo.com.br'},
+            'links': {'web': 'casadoivo.up.railway.app/', 'github': 'github.com/CatZeuss/Casa-Do-Ivo-Landing-Page'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/ae13ab3e-dbde-4e2e-58ec-218862000e00/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/86e08e9c-04d9-40c5-335e-014a0b36e300/public',
@@ -117,7 +118,7 @@ def index():
             'name': 'Hackatur',
             'description': 'Site oficial de um projeto que reúne diversas startups de Santarém.',
             'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
-            'links': {'web': 'hackatur.org'},
+            'links': {'web': 'hackatur.up.railway.app', 'github': 'github.com/CatZeuss/Hackatur-Landing-Page'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/d73a0fd6-c599-44ad-043b-c2f9c0810500/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/0953f785-8c6e-4ffe-2a17-5e3d15bb0800/public',
@@ -129,7 +130,7 @@ def index():
             'name': 'RioHacks',
             'description': 'Site oficial da RioHacks Soluções em Tecnologia.',
             'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
-            'links': {'web': 'riohacks.com.br'},
+            'links': {'web': 'riohacks.up.railway.app', 'github': 'github.com/CatZeuss/RioHacks-Landing-Page'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/1ae5ffc1-c76f-45d2-4593-ed4f1f171300/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/d13af3c3-ea5c-4a06-3605-9cace6e81100/public',
