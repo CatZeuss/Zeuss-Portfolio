@@ -865,12 +865,14 @@ a:focus-visible, button:focus-visible {
     gap: 0.5rem;
     padding: 0.4rem 1rem;
     border-radius: 99px;
-    background: rgba(124,106,247,0.12);
-    border: 1px solid rgba(124,106,247,0.25);
+    background: rgba(124, 106, 247, 0.12);
+    border: 1px solid rgba(124, 106, 247, 0.25);
     font-size: 0.78rem;
     font-weight: 500;
     color: var(--secondary);
     letter-spacing: 0.01em;
+    margin-bottom: 20px;
+    justify-content: center;
 }
 
 /* ── Forms ─────────────────────────────────────── */

@@ -4,7 +4,7 @@ function presetContactForm(title, message) {
     const messageInput = document.querySelector('#message');
 
     if (subjectInput) {
-        subjectInput.value = `Quero pedir um ${title}`;
+        subjectInput.value = `Estou interessad@ em ${title}`;
     }
 
     if (messageInput) {

@@ -903,8 +903,14 @@
                             </ul>
 
                             <a href="#contact"
-                               class="btn-primary w-full justify-center mt-auto glow-on-hover text-sm py-2.5"
-                               onclick="presetContactForm('{{ service.name }}','Bom dia, eu gostaria de pedir um {{ service.name }}')">
+                            class="btn-primary w-full justify-center mt-auto glow-on-hover text-sm py-2.5"
+                            onclick="(function(){
+                                const h = new Date().getHours();
+                                let saudacao = 'Bom dia';
+                                if (h >= 12 && h < 18) saudacao = 'Boa tarde';
+                                else if (h >= 18) saudacao = 'Boa noite';
+                                presetContactForm('{{ service.name }}', saudacao + ', tenho interesse no serviço {{ service.name }}');
+                            })()">
                                 Solicitar Orçamento
                             </a>
                         </div>
