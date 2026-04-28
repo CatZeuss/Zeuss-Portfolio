@@ -868,7 +868,7 @@
                     {% for service in services %}
                     <div class="pricing-card">
                         <div class="pricing-card-inner">
-                            {% if isinstance(service.price, int) %}
+                            {% if isinstancef(service.price, int) %}
                             {% if service.price == 0 %}
                             {# badge free #}
                             <div class="pricing-badge">
