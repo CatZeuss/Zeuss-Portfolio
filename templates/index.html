@@ -816,26 +816,110 @@
 
 <!-- ░░░ SKILLS ░░░ -->
 <section id="skills" class="py-28 relative">
+<style>
+.skill-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1rem 1.1rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    cursor: default;
+}
+.skill-card:hover {
+    background: rgba(124,106,247,0.07);
+    border-color: rgba(124,106,247,0.22);
+    transform: translateX(4px);
+}
+.skill-card-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: 9px;
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: var(--secondary);
+}
+.skill-level-dots {
+    display: flex; gap: 3px; margin-top: 0.35rem;
+}
+.skill-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    transition: background 0.3s ease;
+}
+.skill-dot.filled { background: var(--secondary); }
+.skill-dot.filled.accent { background: var(--accent); }
+
+.cat-icon {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; color: var(--secondary);
+}
+</style>
+
+{% set cat_icons = {
+    'Desenvolvimento': 'fas fa-terminal',
+    'Design':          'fas fa-paintbrush',
+    'Gerenciamento':   'fas fa-diagram-project',
+    'Escritura':       'fas fa-pen-nib',
+} %}
+
+{% set skill_icons = {
+    'Desenvolvimento Full-Stack':  'fas fa-layer-group',
+    'Desenvolvimento Mobile':      'fas fa-mobile-screen',
+    'APIs & Integrações':          'fas fa-plug',
+    'Bancos de Dados':             'fas fa-database',
+    'Segurança de Aplicações':     'fas fa-shield-halved',
+    'DevOps & Deploy':             'fas fa-rocket',
+    'UI/UX Design':                'fas fa-pen-ruler',
+    'Identidade Visual & Branding':'fas fa-swatchbook',
+    'Design Gráfico':              'fas fa-image',
+    'Prototipagem':                'fas fa-object-group',
+    'Ilustração Digital':          'fas fa-wand-magic-sparkles',
+    'Gestão de Projetos':          'fas fa-list-check',
+    'Metodologias Ágeis':          'fas fa-arrows-spin',
+    'Comunicação com Cliente':     'fas fa-comments',
+    'Liderança Técnica':           'fas fa-users-gear',
+    'Documentação Técnica':        'fas fa-file-code',
+    'Criação de Conteúdo':         'fas fa-pen-to-square',
+    'Redação para Marketing Digital':'fas fa-bullhorn',
+    'Redação Jurídica Básica':     'fas fa-scale-balanced',
+} %}
+
     <div class="section-line-right"></div>
     <div class="container mx-auto px-6">
         <div class="section-label animate-on-scroll">Competências</div>
         <h2 class="section-title animate-on-scroll" data-delay="80">Habilidades</h2>
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {% for category, skill_list in skills.items() %}
-            <div class="glass-card p-7 animate-on-scroll" data-delay="{{ loop.index0 * 80 }}">
-                <h3 class="font-display font-bold text-base mb-6 flex items-center gap-2">
-                    <span class="w-1.5 h-5 rounded-full" style="background:linear-gradient(to bottom,var(--primary),var(--accent))"></span>
-                    {{ category }}
-                </h3>
-                <div class="space-y-5">
+            <div class="animate-on-scroll" data-delay="{{ loop.index0 * 80 }}">
+                <div class="flex items-center gap-2.5 mb-5">
+                    <div class="cat-icon"><i class="{{ cat_icons.get(category, 'fas fa-star') }}"></i></div>
+                    <h3 class="font-display font-bold text-base text-white">{{ category }}</h3>
+                </div>
+                <div class="flex flex-col gap-2.5">
                     {% for skill in skill_list %}
-                    <div class="skill-item" data-tooltip="{{ skill.description }}">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-white/75 text-sm font-medium">{{ skill.name }}</span>
-                            <span class="text-xs font-display font-bold" style="color:var(--secondary)">{{ skill.proficiency }}%</span>
+                    {% set dots_filled = (skill.proficiency / 20) | round | int %}
+                    <div class="skill-card" title="{{ skill.description }}">
+                        <div class="skill-card-icon">
+                            <i class="{{ skill_icons.get(skill.name, 'fas fa-circle-dot') }}"></i>
                         </div>
-                        <div class="skill-progress" data-progress="{{ skill.proficiency }}">
-                            <div class="skill-progress-bar"></div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-white/80 text-sm font-medium leading-snug">{{ skill.name }}</span>
+                                <span class="text-xs font-display font-bold flex-shrink-0" style="color:var(--secondary)">{{ skill.proficiency }}%</span>
+                            </div>
+                            <div class="skill-level-dots">
+                                {% for i in range(5) %}
+                                <div class="skill-dot {{ 'filled' + (' accent' if i == 4 and dots_filled == 5 else '') if i < dots_filled else '' }}"></div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
