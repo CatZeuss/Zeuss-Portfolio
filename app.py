@@ -570,7 +570,7 @@ def index():
             ]
         }
     ]
-    return render_template('index.html', projects=projects, skills=skills, services=services, str=str, isinstancef=isinstance, int=int)
+    return render_template('index.html', projects=projects, skills=skills, services=services, str=str, isinstancef=isinstance, int=int, float=float, round=round)
 
 
 # ─────────────────────────────────────────────
