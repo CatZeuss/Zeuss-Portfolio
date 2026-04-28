@@ -88,7 +88,7 @@ def index():
                 'android': 'play.google.com/store/apps/details?id=com.koffeedevs.artkoffee',
                 'github': 'github.com/ArtKoffee/ArtKoffee'
             },
-            'tech': ['HTML', 'CSS', 'MongoDB', 'Websockets', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'JQuery', 'Backend', 'Frontend', 'API', 'Redis', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting'],
+            'tech': ['Rede Social', 'Sistema de Segurança', 'Sistema Multifuncional', 'Blog', 'Comunidade', 'Feed'],
             'images': [
                 'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065108.jpg',
                 'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-22%20065406.jpg',
@@ -105,7 +105,7 @@ def index():
         {
             'name': 'Pousadas Casa Do Ivo',
             'description': 'Site oficial de uma rede de pousadas no oeste do Pará.',
-            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
+            'tech': ['Landing Page'],
             'links': {'web': 'casadoivo.up.railway.app/', 'github': 'github.com/CatZeuss/Casa-Do-Ivo-Landing-Page'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/ae13ab3e-dbde-4e2e-58ec-218862000e00/public',
@@ -117,7 +117,7 @@ def index():
         {
             'name': 'Hackatur',
             'description': 'Site oficial de um projeto que reúne diversas startups de Santarém.',
-            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
+            'tech': ['Landing Page'],
             'links': {'web': 'hackatur.up.railway.app', 'github': 'github.com/CatZeuss/Hackatur-Landing-Page'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/d73a0fd6-c599-44ad-043b-c2f9c0810500/public',
@@ -129,7 +129,7 @@ def index():
         {
             'name': 'RioHacks',
             'description': 'Site oficial da RioHacks Soluções em Tecnologia.',
-            'tech': ['HTML', 'CSS', 'JavaScript', 'PHP', 'Frontend', 'UI/UX', 'Prototipagem', 'Design'],
+            'tech': ['Landing Page'],
             'links': {'web': 'riohacks.up.railway.app', 'github': 'github.com/CatZeuss/RioHacks-Landing-Page'},
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/1ae5ffc1-c76f-45d2-4593-ed4f1f171300/public',
@@ -141,7 +141,7 @@ def index():
             'name': 'ManicScript',
             'description': 'Uma linguagem de programação e compilador gamificado em espanhol criada como um projeto paródia para a comunidade.',
             'links': {'web': 'manicscript.up.railway.app', 'github': 'github.com/CatZeuss/ManicScript'},
-            'tech': ['Python', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'Flask', 'Parser', 'UI/UX', 'Prototipagem', 'Design', 'Frontend', 'Backend', 'API', 'Lexer'],
+            'tech': ['Criação de Linguagem de Programação', 'Compilador', 'Ferramenta gamificada/jogo'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/d050d92c-344d-4ed8-b46b-ba3a497f7100/public'
             ]
@@ -150,7 +150,7 @@ def index():
             'name': 'PolarMind',
             'description': 'Projeto de aplicativo e site de registros de humor e ajuda psicológica especialmente direcionado para indivíduos com transtorno afetivo bipolar.',
             'links': {'github': 'github.com/CatZeuss/PolarMind'},
-            'tech': ['HTML', 'CSS', 'JavaScript', 'MongoDB', 'Flask', 'Python'],
+            'tech': ['Aplicativo Mobile', 'Sistema de Segurança', 'Sistema Multifuncional', 'Sistema de Registros', 'Calendário', 'Sistema para Saúde'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/1f55ee7e-6dc5-4d90-3a53-2f3a52bc2000/public'
             ]
@@ -159,7 +159,7 @@ def index():
             'name': 'AriaMail',
             'description': 'Servidor seguro de e-mail para envio, recebimento e gerenciamento de e-mails com dominio do art-koffee.com.',
             'links': {'web': 'ariamail.art-koffee.com'},
-            'tech': ['Python', 'Flask', 'MongoDB', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'Scrypt Hashing', 'SMTP', 'IMAP', 'POP3', 'DNS', 'SSL', 'TLS', 'Mailgun', 'Backend', 'Frontend', 'API', 'Cibersegurança', 'Gestão de projetos', 'Pentesting', 'Design', 'UI/UX', 'Prototipagem'],
+            'tech': ['Sistema de Segurança', 'Sistema de envio/recebimento de E-mail', 'Sistema de Gerenciamento de E-mail'],
             'images': [
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/5790fff8-4c5f-4373-5d01-4cda1d9d1100/public',
                 'https://imagedelivery.net/yaYNv-wtO5mXyEhI13Elfg/f7edfa65-1e36-488f-525a-236e10869300/public',
@@ -172,7 +172,7 @@ def index():
             'name': 'ArtKoffee Support Center',
             'description': 'Sistema completo e seguro de suporte para a comunidade ArtKoffee similar a Zendesk, incluindo ticketing, chat, blogs de ajuda e gestão de tickets.',
             'links': {'web': 'support.art-koffee.com', 'github': 'github.com/ArtKoffee/ArtKoffee-Support'},
-            'tech': ['HTML', 'CSS', 'MongoDB', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'Backend', 'Single Sign-On', 'Frontend', 'API', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting', 'Design', 'UI/UX', 'Prototipagem'],
+            'tech': ['Sistema de Segurança', 'Sistema de Ticketing', 'Chat', 'Blog', 'Sistema de Gestão de Tickets', 'Sistema Multifuncional', 'Centro de Suporte'],
             'images': [
                 'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20030033.jpg',
                 'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20030129.jpg',
@@ -185,7 +185,7 @@ def index():
             'name': 'ArtKoffee Atlas',
             'description': 'Sistema de ArtKoffee que consiste em um painel de administração altamente seguro, onde o ArtKoffee pode ser administrado, moderado e gerenciado. Este sistema oferece funcionalidades para análise, moderação, suporte, depuração, administração geral e segurança.',
             'links': {'web': 'admin.art-koffee.com', 'github': 'github.com/ArtKoffee/ArtKoffee-Admin'},
-            'tech': ['HTML', 'CSS', 'MongoDB', 'Python', 'JavaScript', 'TailwindCSS', 'Bootstrap', 'Backend', 'Single Sign-On', 'Frontend', 'API', 'JWT', 'Cibersegurança', 'Gestão de projetos', 'Pentesting', 'Design', 'UI/UX', 'Prototipagem'],
+            'tech': ['Sistema de Segurança', 'Sistema de Moderação', 'Centro de Suporte', 'Sistema de Depuração', 'Sistema de Administração Geral', 'Sistema de Analytics', 'Sistema Multifuncional', 'Sistema ERP'],
             'images': [
                 'https://artkoffee.b-cdn.net/default/Captura%20de%20tela%202026-04-21%20031145.jpg'
             ]
@@ -242,6 +242,21 @@ def index():
         ]
     }
     services = [
+        {
+            'name': 'Protótipo do seu Projeto',
+            'price': 0.00,
+            'features': [
+                '100% Grátis e sem compromisso',
+                'Design totalmente personalizado e moderno',
+                'Interface bonita, intuitiva e pensada para converter',
+                '2 rodadas de revisão inclusas sem custo adicional',
+                'Protótipo completo entregue em PDF de alta qualidade',
+                'Inclui paleta de cores, tipografia e explicação das escolhas',
+                'Marca d’água sutil (removida após aprovação e início do projeto)',
+                'Versão desktop + versão mobile após aprovação',
+                'Baseado nas principais telas do seu sistema'
+            ]
+        },
         {
             'name': 'Landing Page',
             'price': 599.90,
@@ -555,7 +570,7 @@ def index():
             ]
         }
     ]
-    return render_template('index.html', projects=projects, skills=skills, services=services, str=str)
+    return render_template('index.html', projects=projects, skills=skills, services=services, str=str, isinstancef=isinstance, int=int)
 
 
 # ─────────────────────────────────────────────

@@ -868,6 +868,14 @@
                     {% for service in services %}
                     <div class="pricing-card">
                         <div class="pricing-card-inner">
+                            {% if isinstance(service.price, int) %}
+                            {% if service.price == 0 %}
+                            {# badge free #}
+                            <div class="pricing-badge">
+                                GRÁTIS • Sem compromisso
+                            </div>
+                            {% endif %}
+                            {% endif %}
                             <h3 class="font-display font-bold text-sm text-white mb-3 leading-snug">{{ service.name }}</h3>
 
                             <div class="pricing-from">A partir de</div>
